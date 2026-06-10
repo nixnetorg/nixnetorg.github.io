@@ -1,0 +1,22 @@
+$color-bg: #0d1117;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background-color: $color-bg;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  width: min(80vw, 600px);
+}
