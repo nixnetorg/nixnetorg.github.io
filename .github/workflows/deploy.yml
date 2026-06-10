@@ -25,16 +25,16 @@ jobs:
       - uses: DeterminateSystems/magic-nix-cache-action@v8
 
       - name: Build site
-        run: nix build
-
-      - name: Copy CNAME into output
-        run: cp CNAME result/
+        run: |
+          nix build
+          cp -r result/ dist
+          cp CNAME dist/
 
       - uses: actions/configure-pages@v5
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: result/
+          path: dist/
 
   deploy:
     needs: build
