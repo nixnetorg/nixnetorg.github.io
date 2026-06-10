@@ -28,6 +28,7 @@ jobs:
         run: |
           nix build
           cp -r result/ dist
+          chmod -R u+w dist
           cp CNAME dist/
 
       - uses: actions/configure-pages@v5
