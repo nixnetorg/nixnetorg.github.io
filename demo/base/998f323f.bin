@@ -1,0 +1,91 @@
+declare -- BASH="/noshell"
+declare -r BASHOPTS="checkwinsize:cmdhist:extquote:globasciiranges:globskipdots:interactive_comments:patsub_replacement:promptvars:sourcepath"
+declare -i BASHPID
+declare -A BASH_ALIASES=()
+declare -a BASH_ARGC=([0]="0")
+declare -a BASH_ARGV=()
+declare -- BASH_ARGV0
+declare -A BASH_CMDS=()
+declare -- BASH_COMMAND
+declare -- BASH_EXECUTION_STRING=$'out="/nix/store/3fvvlafc58ifc68mwxr5w3061ynvys98-inputDerivation-hello-2.12.3"\nif [ -e "$NIX_ATTRS_SH_FILE" ]; then . "$NIX_ATTRS_SH_FILE"; fi\ndeclare -p > $out\nfor var in $passAsFile; do\n    pathVar="${var}Path"\n    printf "%s" "$(< "${!pathVar}")" >> $out\ndone\n'
+declare -a BASH_LINENO=()
+declare -- BASH_LOADABLES_PATH="/nix/store/ksdxvc92sa7h6yppixfl4xyj6632vf0x-bash-5.3p9/lib/bash:."
+declare -- BASH_MONOSECONDS
+declare -a BASH_SOURCE=()
+declare -- BASH_SUBSHELL
+declare -ar BASH_VERSINFO=([0]="5" [1]="3" [2]="9" [3]="1" [4]="release" [5]="i686-pc-linux-gnu")
+declare -- BASH_VERSION="5.3.9(1)-release"
+declare -a DIRSTACK=()
+declare -- EPOCHREALTIME
+declare -- EPOCHSECONDS
+declare -ir EUID="1000"
+declare -a FUNCNAME
+declare -a GROUPS=()
+declare -i HISTCMD
+declare -x HOME="/homeless-shelter"
+declare -- HOSTNAME="localhost"
+declare -- HOSTTYPE="i686"
+declare -- IFS=$' \t\n'
+declare -- LINENO
+declare -- MACHTYPE="i686-pc-linux-gnu"
+declare -x NIX_ATTRS_JSON_FILE="/build/.attrs.json"
+declare -x NIX_ATTRS_SH_FILE="/build/.attrs.sh"
+declare -x NIX_BUILD_CORES="12"
+declare -x NIX_BUILD_TOP="/build"
+declare -x NIX_LOG_FD="2"
+declare -x NIX_STORE="/nix/store"
+declare -x OLDPWD
+declare -- OPTERR="1"
+declare -i OPTIND="1"
+declare -- OSTYPE="linux-gnu"
+declare -x PATH="/path-not-set"
+declare -a PIPESTATUS=([0]="0")
+declare -ir PPID="0"
+declare -- PS4="+ "
+declare -x PWD="/build"
+declare -i RANDOM
+declare -- SECONDS
+declare -- SHELL="/noshell"
+declare -r SHELLOPTS="braceexpand:hashall:interactive-comments"
+declare -x SHLVL="1"
+declare -i SRANDOM
+declare -x TEMP="/build"
+declare -x TEMPDIR="/build"
+declare -x TERM="xterm-256color"
+declare -x TMP="/build"
+declare -x TMPDIR="/build"
+declare -ir UID="1000"
+declare -- _="/build/.attrs.sh"
+declare -a _derivation_original_args=([0]="-e" [1]="/nix/store/l622p70vy8k5sh7y5wizi5f2mic6ynpg-source-stdenv.sh" [2]="/nix/store/shkw4qm9qcw5sc5n1k5jznc83ny02r39-default-builder.sh")
+declare -- _derivation_original_builder="/nix/store/ksdxvc92sa7h6yppixfl4xyj6632vf0x-bash-5.3p9/bin/bash"
+declare -a buildInputs=()
+declare -- builder="/nix/store/ksdxvc92sa7h6yppixfl4xyj6632vf0x-bash-5.3p9/bin/bash"
+declare -a cmakeFlags=()
+declare -a configureFlags=()
+declare -a depsBuildBuild=()
+declare -a depsBuildBuildPropagated=()
+declare -a depsBuildTarget=()
+declare -a depsBuildTargetPropagated=()
+declare -a depsHostHost=()
+declare -a depsHostHostPropagated=()
+declare -a depsTargetTarget=()
+declare -a depsTargetTargetPropagated=()
+declare -- doCheck="1"
+declare -- doInstallCheck="1"
+declare -A env=([NIX_MAIN_PROGRAM]="hello" )
+declare -a mesonFlags=()
+declare -- name="inputDerivation-hello-2.12.3"
+declare -a nativeBuildInputs=([0]="/nix/store/bslyk4zbggz1jfvjijn5s714gyjwi2c8-version-check-hook")
+declare -- out="/nix/store/3fvvlafc58ifc68mwxr5w3061ynvys98-inputDerivation-hello-2.12.3"
+declare -A outputs=([out]="/nix/store/3fvvlafc58ifc68mwxr5w3061ynvys98-inputDerivation-hello-2.12.3" )
+declare -a patches=()
+declare -- pname="hello"
+declare -- postInstallCheck=$'stat "${!outputBin}/bin/hello"\n'
+declare -a propagatedBuildInputs=()
+declare -a propagatedNativeBuildInputs=()
+declare -a requiredSystemFeatures=()
+declare -- src="/nix/store/wj7phsmi7ncidl8k00p489krqss7n9sd-hello-2.12.3.tar.gz"
+declare -- stdenv="/nix/store/0yq2fyi4p1jzmlh17xmy9f2nh4nxi0md-stdenv-linux"
+declare -- strictDeps=""
+declare -- system="i686-linux"
+declare -- version="2.12.3"

@@ -1,0 +1,2 @@
+root:x:0:0::/root:/nix/store/7shi4xysa79rvhmchqq019770bjk6wg9-busybox-static-i686-unknown-linux-musl-1.37.0/bin/sh
+nobody:x:65534:65534::/var/empty:/noshell

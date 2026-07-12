@@ -1,0 +1,13 @@
+#!/nix/store/ksdxvc92sa7h6yppixfl4xyj6632vf0x-bash-5.3p9/bin/sh
+# -*- sh -*-
+LIBDIR=/nix/store/z7c79mx1rrb4gzc0mhd06mfppv0yn84c-lksctp-tools-1.0.21/lib/lksctp-tools
+BINDIR=/nix/store/z7c79mx1rrb4gzc0mhd06mfppv0yn84c-lksctp-tools-1.0.21/bin
+LIBVER=1.0.21
+export LD_PRELOAD=${LIBDIR}/libwithsctp.so.${LIBVER}
+if ! ${BINDIR}/checksctp 2> /dev/null
+then
+    ${BINDIR}/checksctp;
+    exit 1;
+fi
+
+exec "$@"

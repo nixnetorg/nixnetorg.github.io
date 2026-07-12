@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-287.000 -141.200 1215.891 410.400" width="1216" height="410">
+  <g id="outline">
+    <line x1="-29" y1="64.3555" x2="16.033" y2="64.369" fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="15" />
+    <line x1="-6.5015" y1="103.6165" x2="39.6955" y2="22.6435" fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="15" />
+    <line x1="17.1925" y1="-16.3625" x2="39.6955" y2="22.6435" fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="15" />
+    <line x1="-5.561" y1="22.753" x2="87.664" y2="22.2745" fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="15" />
+    <line x1="110.1925" y1="-16.718" x2="87.664" y2="22.2745" fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="15" />
+    <line x1="64.9405" y1="-16.865" x2="111.967" y2="63.631" fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="15" />
+    <line x1="157" y1="63.6445" x2="111.967" y2="63.631" fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="15" />
+    <line x1="134.5015" y1="24.3835" x2="88.3045" y2="105.3565" fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="15" />
+    <line x1="110.8075" y1="144.3625" x2="88.3045" y2="105.3565" fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="15" />
+    <line x1="133.561" y1="105.247" x2="40.336" y2="105.7255" fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="15" />
+    <line x1="17.8075" y1="144.718" x2="40.336" y2="105.7255" fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="15" />
+    <line x1="63.0595" y1="144.865" x2="16.033" y2="64.369" fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="15" />
+    <circle cx="-29" cy="64.3555" r="12" fill="white" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <circle cx="17.1925" cy="-16.3625" r="12" fill="white" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <circle cx="110.1925" cy="-16.718" r="12" fill="white" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <circle cx="157" cy="63.6445" r="12" fill="white" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <circle cx="110.8075" cy="144.3625" r="12" fill="white" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <circle cx="17.8075" cy="144.718" r="12" fill="white" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <circle cx="16.033" cy="64.369" r="12" fill="white" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <circle cx="39.6955" cy="22.6435" r="12" fill="white" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <circle cx="87.664" cy="22.2745" r="12" fill="white" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <circle cx="111.967" cy="63.631" r="12" fill="white" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <circle cx="88.3045" cy="105.3565" r="12" fill="white" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <circle cx="40.336" cy="105.7255" r="12" fill="white" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <circle cx="-6.5015" cy="103.6165" r="12" fill="white" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <circle cx="-5.561" cy="22.753" r="12" fill="white" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <circle cx="64.9405" cy="-16.865" r="12" fill="white" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <circle cx="134.5015" cy="24.3835" r="12" fill="white" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <circle cx="133.561" cy="105.247" r="12" fill="white" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <circle cx="63.0595" cy="144.865" r="12" fill="white" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <path d="M290.2364,-3.7361 L290.2364,100.5533 L216.683,-3.7361 L202.1145,-3.7361 L202.1145,127.736 L217.3937,127.736 L217.3937,23.4466 L290.947,127.736 L305.5155,127.736 L305.5155,-3.7361 Z" fill="white" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" paint-order="stroke fill" />
+    <path d="M319.2775,14.7411 C323.1861,15.8071 331.0034,15.8071 334.912,14.7411 L334.912,0.3502 C331.0034,-0.7158 323.1861,-0.7158 319.2775,0.3502 Z M319.2775,127.736 L334.912,127.736 L334.912,33.5736 L319.2775,35.3502 Z" fill="white" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" paint-order="stroke fill" />
+    <path d="M432.7485,35.3502 L413.916,35.3502 L391.5302,71.0609 L370.9211,35.3502 L351.7333,35.3502 L383.18,81.5431 L350.1343,127.736 L368.2561,127.736 L390.8196,91.137 L413.5607,127.736 L432.5708,127.736 L399.5251,80.2994 Z" fill="white" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" paint-order="stroke fill" />
+    <path d="M530.8994,-3.7361 L530.8994,100.5533 L457.346,-3.7361 L442.7775,-3.7361 L442.7775,127.736 L458.0567,127.736 L458.0567,23.4466 L531.61,127.736 L546.1785,127.736 L546.1785,-3.7361 Z" fill="white" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" paint-order="stroke fill" />
+    <path d="M594.9405,117.4314 C578.0624,117.4314 569.7121,109.4365 568.8238,85.4517 L627.4532,85.4517 C627.4532,79.7665 627.4532,75.3248 627.0979,69.4619 C625.6766,45.2994 615.1943,32.8629 593.6969,32.8629 C568.8238,32.8629 553.0116,47.0761 553.0116,83.3197 C553.0116,115.8324 565.2705,130.2233 594.0522,130.2233 C604.5344,130.2233 614.6613,128.4467 624.6106,123.6497 L620.8796,112.6345 C613.0624,115.8324 605.6004,117.4314 594.9405,117.4314 Z M592.8085,45.2994 C607.0217,45.2994 611.4634,52.2284 612.3517,73.7258 L569.0014,73.7258 C570.0674,51.6954 578.4177,45.2994 592.8085,45.2994 Z" fill="white" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" paint-order="stroke fill" />
+    <path d="M686.2618,115.2995 C681.8201,116.8984 678.6222,117.4314 675.6019,117.4314 C664.7643,117.4314 661.744,112.9898 661.744,97.7106 L661.744,47.0761 L686.7948,47.0761 L688.3937,35.3502 L661.744,35.3502 L661.744,12.2538 L646.1095,14.7411 L646.1095,35.3502 L632.7846,35.3502 L632.7846,47.0761 L646.1095,47.0761 L646.1095,96.8223 C646.1095,101.7969 646.1095,106.5939 646.4648,111.3908 C647.3531,122.0507 653.9267,130.2233 668.6729,130.2233 C677.0232,130.2233 683.4191,128.269 689.1044,125.4264 Z" fill="white" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" paint-order="stroke fill" />
+  </g>
+  <g id="original">
+    <line x1="-29" y1="64.3555" x2="16.033" y2="64.369" fill="none" stroke="#7fb8e3" stroke-linecap="round" stroke-linejoin="round" stroke-width="9" />
+    <line x1="-6.5015" y1="103.6165" x2="39.6955" y2="22.6435" fill="none" stroke="#7fb8e3" stroke-linecap="round" stroke-linejoin="round" stroke-width="9" />
+    <line x1="17.1925" y1="-16.3625" x2="39.6955" y2="22.6435" fill="none" stroke="#7fb8e3" stroke-linecap="round" stroke-linejoin="round" stroke-width="9" />
+    <line x1="-5.561" y1="22.753" x2="87.664" y2="22.2745" fill="none" stroke="#7fb8e3" stroke-linecap="round" stroke-linejoin="round" stroke-width="9" />
+    <line x1="110.1925" y1="-16.718" x2="87.664" y2="22.2745" fill="none" stroke="#7fb8e3" stroke-linecap="round" stroke-linejoin="round" stroke-width="9" />
+    <line x1="64.9405" y1="-16.865" x2="111.967" y2="63.631" fill="none" stroke="#7fb8e3" stroke-linecap="round" stroke-linejoin="round" stroke-width="9" />
+    <line x1="157" y1="63.6445" x2="111.967" y2="63.631" fill="none" stroke="#7fb8e3" stroke-linecap="round" stroke-linejoin="round" stroke-width="9" />
+    <line x1="134.5015" y1="24.3835" x2="88.3045" y2="105.3565" fill="none" stroke="#7fb8e3" stroke-linecap="round" stroke-linejoin="round" stroke-width="9" />
+    <line x1="110.8075" y1="144.3625" x2="88.3045" y2="105.3565" fill="none" stroke="#7fb8e3" stroke-linecap="round" stroke-linejoin="round" stroke-width="9" />
+    <line x1="133.561" y1="105.247" x2="40.336" y2="105.7255" fill="none" stroke="#7fb8e3" stroke-linecap="round" stroke-linejoin="round" stroke-width="9" />
+    <line x1="17.8075" y1="144.718" x2="40.336" y2="105.7255" fill="none" stroke="#7fb8e3" stroke-linecap="round" stroke-linejoin="round" stroke-width="9" />
+    <line x1="63.0595" y1="144.865" x2="16.033" y2="64.369" fill="none" stroke="#7fb8e3" stroke-linecap="round" stroke-linejoin="round" stroke-width="9" />
+    <circle cx="-29" cy="64.3555" r="9" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <circle cx="17.1925" cy="-16.3625" r="9" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <circle cx="110.1925" cy="-16.718" r="9" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <circle cx="157" cy="63.6445" r="9" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <circle cx="110.8075" cy="144.3625" r="9" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <circle cx="17.8075" cy="144.718" r="9" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <circle cx="16.033" cy="64.369" r="9" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <circle cx="39.6955" cy="22.6435" r="9" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <circle cx="87.664" cy="22.2745" r="9" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <circle cx="111.967" cy="63.631" r="9" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <circle cx="88.3045" cy="105.3565" r="9" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <circle cx="40.336" cy="105.7255" r="9" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <circle cx="-6.5015" cy="103.6165" r="9" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <circle cx="-5.561" cy="22.753" r="9" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <circle cx="64.9405" cy="-16.865" r="9" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <circle cx="134.5015" cy="24.3835" r="9" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <circle cx="133.561" cy="105.247" r="9" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <circle cx="63.0595" cy="144.865" r="9" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.5" />
+    <path d="M290.2364,-3.7361 L290.2364,100.5533 L216.683,-3.7361 L202.1145,-3.7361 L202.1145,127.736 L217.3937,127.736 L217.3937,23.4466 L290.947,127.736 L305.5155,127.736 L305.5155,-3.7361 Z" fill="#000000" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1" />
+    <path d="M319.2775,14.7411 C323.1861,15.8071 331.0034,15.8071 334.912,14.7411 L334.912,0.3502 C331.0034,-0.7158 323.1861,-0.7158 319.2775,0.3502 Z M319.2775,127.736 L334.912,127.736 L334.912,33.5736 L319.2775,35.3502 Z" fill="#000000" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1" />
+    <path d="M432.7485,35.3502 L413.916,35.3502 L391.5302,71.0609 L370.9211,35.3502 L351.7333,35.3502 L383.18,81.5431 L350.1343,127.736 L368.2561,127.736 L390.8196,91.137 L413.5607,127.736 L432.5708,127.736 L399.5251,80.2994 Z" fill="#000000" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1" />
+    <path d="M530.8994,-3.7361 L530.8994,100.5533 L457.346,-3.7361 L442.7775,-3.7361 L442.7775,127.736 L458.0567,127.736 L458.0567,23.4466 L531.61,127.736 L546.1785,127.736 L546.1785,-3.7361 Z" fill="#000000" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1" />
+    <path d="M594.9405,117.4314 C578.0624,117.4314 569.7121,109.4365 568.8238,85.4517 L627.4532,85.4517 C627.4532,79.7665 627.4532,75.3248 627.0979,69.4619 C625.6766,45.2994 615.1943,32.8629 593.6969,32.8629 C568.8238,32.8629 553.0116,47.0761 553.0116,83.3197 C553.0116,115.8324 565.2705,130.2233 594.0522,130.2233 C604.5344,130.2233 614.6613,128.4467 624.6106,123.6497 L620.8796,112.6345 C613.0624,115.8324 605.6004,117.4314 594.9405,117.4314 Z M592.8085,45.2994 C607.0217,45.2994 611.4634,52.2284 612.3517,73.7258 L569.0014,73.7258 C570.0674,51.6954 578.4177,45.2994 592.8085,45.2994 Z" fill="#000000" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1" />
+    <path d="M686.2618,115.2995 C681.8201,116.8984 678.6222,117.4314 675.6019,117.4314 C664.7643,117.4314 661.744,112.9898 661.744,97.7106 L661.744,47.0761 L686.7948,47.0761 L688.3937,35.3502 L661.744,35.3502 L661.744,12.2538 L646.1095,14.7411 L646.1095,35.3502 L632.7846,35.3502 L632.7846,47.0761 L646.1095,47.0761 L646.1095,96.8223 C646.1095,101.7969 646.1095,106.5939 646.4648,111.3908 C647.3531,122.0507 653.9267,130.2233 668.6729,130.2233 C677.0232,130.2233 683.4191,128.269 689.1044,125.4264 Z" fill="#000000" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1" />
+  </g>
+</svg>

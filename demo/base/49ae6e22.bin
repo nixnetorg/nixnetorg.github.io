@@ -1,0 +1,4 @@
+#! /nix/store/d39knr7nz351yy7q0gv0m9y59fw7yd6k-dash-0.5.13.3/bin/dash
+otherArgs="--noclear --keep-baud $TTY 115200,38400,9600 $TERM";
+
+exec /nix/store/gxy7alfvzpsp49bvbbmai3dsi21w91zn-util-linux-2.42-bin/bin/agetty --login-program /nix/store/h1pq6yacwrxv3gvy47jmq2p0j47rm8gw-shadow-4.19.4/bin/login --issue-file /etc/issue:/etc/issue.d:/run/issue:/run/issue.d $otherArgs

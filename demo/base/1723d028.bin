@@ -1,0 +1,153 @@
+# Since the same derivation can be depended on in multiple ways, we need to
+# accumulate *each* role (i.e. host and target platforms relative the depending
+# derivation) in which the derivation is used.
+#
+# The role is intended to be used as part of other variables names like
+#  - $NIX_SOMETHING${role_post}
+
+function getRole() {
+    case $1 in
+        -1)
+            role_post='_FOR_BUILD'
+            ;;
+        0)
+            role_post=''
+            ;;
+        1)
+            role_post='_FOR_TARGET'
+            ;;
+        *)
+            echo "binutils-wrapper-2.46: used as improper sort of dependency" >&2
+            return 1
+            ;;
+    esac
+}
+
+# `hostOffset` describes how the host platform of the package is slid relative
+# to the depending package. `targetOffset` likewise describes the target
+# platform of the package. Both are brought into scope of the setup hook defined
+# for dependency whose setup hook is being processed relative to the package
+# being built.
+
+function getHostRole()   {
+    getRole "$hostOffset"
+}
+function getTargetRole() {
+    getRole "$targetOffset"
+}
+
+# `depHostOffset` describes how the host platform of the dependencies are slid
+# relative to the depending package. `depTargetOffset` likewise describes the
+# target platform of dependenices. Both are brought into scope of the
+# environment hook defined for the dependency being applied relative to the
+# package being built.
+
+function getHostRoleEnvHook()   {
+    getRole "$depHostOffset"
+}
+function getTargetRoleEnvHook() {
+    getRole "$depTargetOffset"
+}
+
+# This variant is intended specifically for code-producing tool wrapper scripts
+# `NIX_BINTOOLS_WRAPPER_TARGET_*_i686_unknown_linux_gnu` tracks this (needs to be an exported
+# env var so can't use fancier data structures).
+function getTargetRoleWrapper() {
+    case $targetOffset in
+        -1)
+            export NIX_BINTOOLS_WRAPPER_TARGET_BUILD_i686_unknown_linux_gnu=1
+            ;;
+        0)
+            export NIX_BINTOOLS_WRAPPER_TARGET_HOST_i686_unknown_linux_gnu=1
+            ;;
+        1)
+            export NIX_BINTOOLS_WRAPPER_TARGET_TARGET_i686_unknown_linux_gnu=1
+            ;;
+        *)
+            echo "binutils-wrapper-2.46: used as improper sort of dependency" >&2
+            return 1
+            ;;
+    esac
+}
+# Binutils Wrapper hygiene
+#
+# See comments in cc-wrapper's setup hook. This works exactly the same way.
+
+# Skip setup hook if we're neither a build-time dep, nor, temporarily, doing a
+# native compile.
+#
+# TODO(@Ericson2314): No native exception
+[[ -z ${strictDeps-} ]] || (( "$hostOffset" < 0 )) || return 0
+
+bintoolsWrapper_addLDVars () {
+    # See ../setup-hooks/role.bash
+    local role_post
+    getHostRoleEnvHook
+
+    if [[ -d "$1/lib64" && ! -L "$1/lib64" ]]; then
+        export NIX_LDFLAGS${role_post}+=" -L$1/lib64"
+    fi
+
+    if [[ -d "$1/lib" ]]; then
+        # Don't add the /lib directory if it actually doesn't contain any libraries. For instance,
+        # Python and Haskell packages often only have directories like $out/lib/ghc-8.4.3/ or
+        # $out/lib/python3.6/, so having them in LDFLAGS just makes the linker search unnecessary
+        # directories and bloats the size of the environment variable space.
+        local -a glob=( $1/lib/lib* )
+        if [ "${#glob[*]}" -gt 0 ]; then
+            export NIX_LDFLAGS${role_post}+=" -L$1/lib"
+        fi
+    fi
+}
+
+# See ../setup-hooks/role.bash
+getTargetRole
+getTargetRoleWrapper
+
+addEnvHooks "$targetOffset" bintoolsWrapper_addLDVars
+
+# shellcheck disable=SC2157
+if [ -n "/nix/store/kyan9443h0f7l22zmdk3gj2lm4pwyr5a-binutils-2.46" ]; then
+    addToSearchPath _PATH /nix/store/kyan9443h0f7l22zmdk3gj2lm4pwyr5a-binutils-2.46/bin
+fi
+
+# shellcheck disable=SC2157
+if [ -n "/nix/store/yi3gsp8pgylzcc3qs24h3b9hq4n9dvg2-glibc-2.42-61-bin" ]; then
+    addToSearchPath _PATH /nix/store/yi3gsp8pgylzcc3qs24h3b9hq4n9dvg2-glibc-2.42-61-bin/bin
+fi
+
+# shellcheck disable=SC2157
+if [ -n "/nix/store/l2z0c4ivxc914j8h8g537zdcyfrbga2h-coreutils-9.11" ]; then
+    addToSearchPath _PATH /nix/store/l2z0c4ivxc914j8h8g537zdcyfrbga2h-coreutils-9.11/bin
+fi
+
+# Export tool environment variables so various build systems use the right ones.
+
+export NIX_BINTOOLS${role_post}=/nix/store/ngifhvflhbfrm9mvrv6k3iqg15b3knzz-binutils-wrapper-2.46
+
+for cmd in \
+    ar as ld nm objcopy objdump readelf ranlib strip strings size windres rc
+do
+    if
+        PATH=$_PATH type -p "${cmd}" > /dev/null
+    then
+        export "${cmd^^}${role_post}=${cmd}";
+    fi
+done
+
+# If there is no `<prefix>rc`, but there is a `<prefix>windres`, define
+# `RC<suffix>=${WINDRES<suffix>}`.
+if
+    [[ ! -v "RC${role_post}" ]] && [[ -v "WINDRES${role_post}" ]]
+then
+    windres_var="WINDRES${role_post}"
+    export "RC${role_post}=${!windres_var}"
+    unset -v windres_var
+fi
+
+# If unset, assume the default hardening flags.
+: ${NIX_HARDENING_ENABLE="bindnow format fortify fortify3 libcxxhardeningfast pic relro stackclashprotection stackprotector strictflexarrays1 strictoverflow zerocallusedregs"}
+export NIX_HARDENING_ENABLE
+
+# No local scope in sourced file
+unset -v role_post cmd upper_case

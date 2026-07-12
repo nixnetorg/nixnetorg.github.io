@@ -1,0 +1,147 @@
+#!/nix/store/ksdxvc92sa7h6yppixfl4xyj6632vf0x-bash-5.3p9/bin/bash
+set -o errexit
+set -o nounset
+set -o pipefail
+
+export PATH="/nix/store/ksdxvc92sa7h6yppixfl4xyj6632vf0x-bash-5.3p9/bin:/nix/store/l2z0c4ivxc914j8h8g537zdcyfrbga2h-coreutils-9.11/bin:/nix/store/gnhnf55iv89m2g9cq5xbgxriwgqarbn0-util-linux-minimal-2.42-bin/bin:/nix/store/6c0fjwgaxpnnlk5yna14kpan6f0442g3-busybox-mini/bin:$PATH"
+
+#!/usr/bin/env bash
+# Called by jail to set up the sandbox filesystem inside a new mount namespace.
+# Expects exported variables: NAME, CHDIR, WAYLAND, HAS_USERNS, JAIL_BINDS, JAIL_SETENV.
+set -euo pipefail
+NEW_ROOT="$(mktemp -d)"
+mount -t tmpfs tmpfs "$NEW_ROOT"
+mkdir -p \
+  "$NEW_ROOT/old_root" \
+  "$NEW_ROOT/bin" \
+  "$NEW_ROOT/var/run/netns" \
+  "$NEW_ROOT/nix/store" \
+  "$NEW_ROOT/proc" \
+  "$NEW_ROOT/sys" \
+  "$NEW_ROOT/tmp" \
+  "$NEW_ROOT/dev/pts" \
+  "$NEW_ROOT/dev/shm" \
+  "$NEW_ROOT/root" \
+  "$NEW_ROOT/etc"
+chmod 1777 "$NEW_ROOT/dev/shm"
+ln -s "$(command -v bash)" "$NEW_ROOT/bin/sh"
+ln -sf /dev/pts/ptmx "$NEW_ROOT/dev/ptmx"
+ln -s /proc/self/fd "$NEW_ROOT/dev/fd"
+ln -s /proc/self/fd/0 "$NEW_ROOT/dev/stdin"
+ln -s /proc/self/fd/1 "$NEW_ROOT/dev/stdout"
+ln -s /proc/self/fd/2 "$NEW_ROOT/dev/stderr"
+touch \
+  "$NEW_ROOT/dev/null" \
+  "$NEW_ROOT/dev/zero" \
+  "$NEW_ROOT/dev/urandom" \
+  "$NEW_ROOT/dev/random"
+mount -t devpts devpts "$NEW_ROOT/dev/pts" -o newinstance,ptmxmode=0666
+mount --bind /dev/null "$NEW_ROOT/dev/null"
+mount --bind /dev/zero "$NEW_ROOT/dev/zero"
+mount --bind /dev/urandom "$NEW_ROOT/dev/urandom"
+mount --bind /dev/random "$NEW_ROOT/dev/random"
+mount --bind /nix/store "$NEW_ROOT/nix/store"
+mount --rbind /sys "$NEW_ROOT/sys" # required otherwise "ip netns exec" fails inside
+printf "root:x:0:0:root:/root:/bin/sh\n" > "$NEW_ROOT/etc/passwd"
+printf "nobody:x:65534:65534:nobody:/var/empty:/bin/sh\n" >> "$NEW_ROOT/etc/passwd"
+printf "root:x:0:\n" > "$NEW_ROOT/etc/group"
+printf "nobody:x:65534:\n" >> "$NEW_ROOT/etc/group"
+printf "nogroup:x:65534:\n" >> "$NEW_ROOT/etc/group"
+printf "%s\n" "$NAME" > "$NEW_ROOT/etc/hostname"
+while IFS= read -r _entry; do
+  [ -z "$_entry" ] && continue
+  _mode="${_entry%%:*}"; _rest="${_entry#*:}"
+  _src="${_rest%%:*}"; _dst="${_rest#*:}"
+  if [ -d "$_src" ]; then
+    mkdir -p "$NEW_ROOT$_dst"
+  else
+    mkdir -p "$NEW_ROOT$(dirname "$_dst")"
+    touch "$NEW_ROOT$_dst"
+  fi
+  mount --bind "$_src" "$NEW_ROOT$_dst"
+  if [ "$_mode" = ro ]; then
+    mount -o remount,ro,bind "$NEW_ROOT$_dst"
+  fi
+done <<< "$JAIL_BINDS"
+if [ "$WAYLAND" = true ]; then
+  mkdir -p "$NEW_ROOT/run/user/0"
+  touch "$NEW_ROOT/run/user/0/wayland-0"
+  mount --rbind "$XDG_RUNTIME_DIR/$WAYLAND_DISPLAY" "$NEW_ROOT/run/user/0/wayland-0"
+  if [ -e /dev/dri ]; then
+    mkdir -p "$NEW_ROOT/dev/dri"
+    mount --bind /dev/dri "$NEW_ROOT/dev/dri"
+  fi
+  if [ -d /run/opengl-driver ]; then
+    mkdir -p "$NEW_ROOT/run/opengl-driver"
+    mount --bind /run/opengl-driver "$NEW_ROOT/run/opengl-driver"
+  fi
+fi
+_ENV=(
+  "PWD=$CHDIR"
+  "HOME=/root"
+  "USER=root"
+  "TERM=${TERM:-}"
+)
+if [ "$WAYLAND" = true ]; then
+  _ENV+=(
+    "XDG_RUNTIME_DIR=/run/user/0"
+    "WAYLAND_DISPLAY=wayland-0"
+    "DISPLAY=${DISPLAY:-}"
+    "NIXOS_OZONE_WL=${NIXOS_OZONE_WL:-}"
+    "XDG_SESSION_TYPE=${XDG_SESSION_TYPE:-}"
+  )
+fi
+while IFS= read -r _e; do
+  [ -n "$_e" ] && _ENV+=("$_e")
+done <<< "$JAIL_SETENV"
+mkdir -p "$NEW_ROOT$CHDIR"
+mount -t proc proc "$NEW_ROOT/proc"
+if [ -n "$NAME" ]; then
+  printf "%s\n" "${_ENV[@]}" > "/run/jail/$NAME/env"
+  # write outer init PID of jail to fifo before pivot_root
+  # use read builtin to not fork 
+  read -r _outer_pid _ < /proc/self/stat
+  printf "%s\n" "$_outer_pid" > "/run/jail/$NAME/.pid_fifo"
+fi
+pivot_root "$NEW_ROOT" "$NEW_ROOT/old_root"
+if [ "$HAS_USERNS" -ne 0 ]; then
+  mount -t sysfs sysfs /sys # required for "ip netns exec" inside a user namespace
+fi
+cd /
+umount -l /old_root
+rmdir /old_root
+if [ -n "$NAME" ]; then
+  exec env -i --chdir "$CHDIR" "${_ENV[@]}" "$@"  # named jail: init handles signals itself
+fi
+# Run the command via setsid so a terminal SIGINT can't reach it directly; we
+# forward signals to it as SIGTERM instead (a foreground job bypasses an INT trap
+# but runs a TERM trap). Traps are installed before the child starts so an early
+# signal can't tear the namespace down via the default handler.
+_SIGNAL=0
+# kill -- -1 signals every process in this pid namespace except us (PID 1).
+trap '_SIGNAL=130; kill -s TERM -- -1 2>/dev/null' INT
+trap '_SIGNAL=143; kill -s TERM -- -1 2>/dev/null' TERM
+setsid env -i --chdir "$CHDIR" "${_ENV[@]}" "$@" <&0 &
+PID=$!
+# '|| EXIT_CODE=$?' so set -e doesn't exit on the signal-killed child before the
+# grace block below runs.
+EXIT_CODE=0
+wait "$PID" 2>/dev/null || EXIT_CODE=$?
+if [ "$_SIGNAL" -ne 0 ]; then
+  trap '' INT TERM  # ignore duplicate signals while cleanup runs
+  # Let cleanup traps finish before we exit (and the kernel SIGKILLs the rest):
+  # poll until the process table goes quiet, bounded by a deadline so a stuck
+  # process can't hang teardown. We poll instead of wait because the command's
+  # descendants aren't all our children, and named-jail inits stay alive by design.
+  _deadline=$((SECONDS + 5)); _prev=-1; _settle=0
+  while (( SECONDS < _deadline )); do
+    _procs=(/proc/[0-9]*); _cur=${#_procs[@]}
+    (( _cur == _prev )) && _settle=$((_settle + 1)) || _settle=0
+    (( _settle >= 4 )) && break
+    _prev=$_cur; sleep 0.05
+  done
+  exit "$_SIGNAL"
+fi
+trap - INT TERM
+exit "$EXIT_CODE"
+

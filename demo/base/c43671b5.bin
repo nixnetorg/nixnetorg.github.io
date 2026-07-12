@@ -1,0 +1,1 @@
+-idirafter /nix/store/8b79ylscygvnq4sh92d80zipr4am7pic-glibc-2.42-61-dev/include -idirafter /nix/store/cfmbizqld713dwr7193k2mhrrzf2fk95-gcc-15.2.0/lib/gcc/i686-unknown-linux-gnu/15.2.0/include-fixed 

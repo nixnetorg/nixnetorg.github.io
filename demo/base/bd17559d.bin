@@ -1,0 +1,22 @@
+=head2 Tue Jan  1 00:00:00 1980: C<Module> L<LibAppArmor|LibAppArmor>
+
+=over 4
+
+=item *
+
+C<installed into: /nix/store/3pda7512c46pmqzlbcnshpi48ggzi1c1-libapparmor-4.1.7/lib/perl5/site_perl/5.42.0>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 4.1.7>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+

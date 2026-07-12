@@ -1,0 +1,1 @@
+ENV{PATH}="/nix/store/a3hv2dbha0pkcplnx2kd345y4d2g6i43-udev-path/bin:/nix/store/a3hv2dbha0pkcplnx2kd345y4d2g6i43-udev-path/sbin"

@@ -1,0 +1,33 @@
+#!/nix/store/ksdxvc92sa7h6yppixfl4xyj6632vf0x-bash-5.3p9/bin/bash
+
+
+export PATH="$PATH"
+
+source /nix/store/mhxn5kwnri3z9hdzi3x0980id65p0icn-lib.sh
+
+systemConfig='/nix/store/bhhd0gdga96kf717k5lpwqllvsa0hi99-nixos-system-nixos-26.05.20260608.bd0ff2d'
+
+export PATH=/empty
+for i in /nix/store/l2z0c4ivxc914j8h8g537zdcyfrbga2h-coreutils-9.11 /nix/store/k3883z8hn5hsmmd5x95471h0dsxs0bg9-gnugrep-3.12 /nix/store/s9k320md6mg239j02wqzixs3kw69210n-findutils-4.10.0 /nix/store/3xq4mb1ynjbzbmf5yrkdjmwrbicmfxzp-getent-glibc-2.42-61 /nix/store/yi3gsp8pgylzcc3qs24h3b9hq4n9dvg2-glibc-2.42-61-bin /nix/store/h1pq6yacwrxv3gvy47jmq2p0j47rm8gw-shadow-4.19.4 /nix/store/gxy7alfvzpsp49bvbbmai3dsi21w91zn-util-linux-2.42-bin; do
+    PATH=$PATH:$i/bin:$i/sbin
+done
+
+_status=0
+trap "_status=1 _localstatus=\$?" ERR
+
+# Ensure a consistent umask.
+umask 0022
+
+#### Activation script snippet stdio does not support dry activation.
+#### Activation script snippet binsh does not support dry activation.
+#### Activation script snippet etc does not support dry activation.
+#### Activation script snippet users does not support dry activation.
+#### Activation script snippet groups does not support dry activation.
+#### Activation script snippet hashes does not support dry activation.
+#### Activation script snippet specialfs does not support dry activation.
+#### Activation script snippet modprobe does not support dry activation.
+#### Activation script snippet no-nix-channel does not support dry activation.
+#### Activation script snippet udevd does not support dry activation.
+#### Activation script snippet usrbinenv does not support dry activation.
+#### Activation script snippet var does not support dry activation.
+

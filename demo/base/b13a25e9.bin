@@ -1,0 +1,6 @@
+KERNEL=="tun", TAG+="systemd"
+# Needed for gpm.
+SUBSYSTEM=="input", KERNEL=="mice", TAG+="systemd"
+
+SUBSYSTEM=="misc", KERNEL=="sgx_enclave",   SYMLINK+="sgx/enclave"
+SUBSYSTEM=="misc", KERNEL=="sgx_provision", SYMLINK+="sgx/provision"

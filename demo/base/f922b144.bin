@@ -1,0 +1,9 @@
+[Unit]
+
+[Timer]
+OnCalendar=
+OnCalendar=weekly
+
+
+[Install]
+WantedBy=timers.target

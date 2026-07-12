@@ -1,0 +1,5 @@
+[Manager]
+DefaultIOAccounting=true
+DefaultIPAccounting=true
+ManagerEnvironment=LOCALE_ARCHIVE=/run/current-system/sw/lib/locale/locale-archive PATH=/nix/store/lb5xqwk3aphldq9hl3q08aim844fhdn0-dosfstools-4.2/bin:/nix/store/gnhnf55iv89m2g9cq5xbgxriwgqarbn0-util-linux-minimal-2.42-bin/bin TZDIR=/etc/zoneinfo
+

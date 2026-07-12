@@ -1,0 +1,35 @@
+${M2} --architecture x86 \
+  -f ${m2libc}/sys/types.h \
+  -f ${m2libc}/stddef.h \
+  -f ${m2libc}/sys/utsname.h \
+  -f ${m2libc}/x86/linux/fcntl.c \
+  -f ${m2libc}/fcntl.c \
+  -f ${m2libc}/x86/linux/unistd.c \
+  -f ${m2libc}/x86/linux/sys/stat.c \
+  -f ${m2libc}/ctype.c \
+  -f ${m2libc}/stdlib.c \
+  -f ${m2libc}/stdarg.h \
+  -f ${m2libc}/stdio.h \
+  -f ${m2libc}/stdio.c \
+  -f ${m2libc}/string.c \
+  -f ${m2libc}/bootstrappable.c \
+  -f ${src}/mescc-tools-extra/mkdir.c \
+  --debug \
+  -o mkdir.M1
+
+${blood-elf-0} --little-endian   -f mkdir.M1 -o mkdir-footer.M1
+
+${M1} --architecture x86 \
+  --little-endian \
+  -f ${m2libc}/x86/x86_defs.M1 \
+  -f ${m2libc}/x86/libc-full.M1 \
+  -f mkdir.M1 \
+  -f mkdir-footer.M1 \
+  -o mkdir.hex2
+
+${hex2} --architecture x86 \
+  --little-endian \
+  -f ${m2libc}/x86/ELF-x86-debug.hex2 \
+  -f mkdir.hex2 \
+  --base-address 0x08048000 \
+  -o ${out}

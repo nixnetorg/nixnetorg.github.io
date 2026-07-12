@@ -1,0 +1,10 @@
+prefix=/nix/store/jyshdcrxb17hda7w8054rcbwlqmsscdn-linux-pam-1.7.1
+includedir=/nix/store/jyshdcrxb17hda7w8054rcbwlqmsscdn-linux-pam-1.7.1/include
+libdir=${prefix}/lib
+
+Name: libpamc
+Description: The PAM client API library and binary prompt support. Rarely used.
+URL: http://www.linux-pam.org/
+Version: 1.7.1
+Libs: -L${libdir} -lpamc
+Cflags: -I${includedir}

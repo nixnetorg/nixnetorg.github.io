@@ -1,0 +1,11 @@
+{
+     "profile_name": "P_ECCP256SHA256",
+     "profile_dir": "/nix/store/lxwa339rlfb289rkwx6lwff18kvp3nzn-tpm2-tss-4.1.3/etc/tpm2-tss/fapi-profiles/",
+     "user_dir": "~/.local/share/tpm2-tss/user/keystore",
+     "system_dir": "/nix/store/lxwa339rlfb289rkwx6lwff18kvp3nzn-tpm2-tss-4.1.3/var/lib/tpm2-tss/system/keystore",
+     "tcti": "",
+     "system_pcrs" : [],
+     "log_dir" : "/nix/store/lxwa339rlfb289rkwx6lwff18kvp3nzn-tpm2-tss-4.1.3/var/run/tpm2-tss/eventlog/",
+     "firmware_log_file": "/dev/null",
+     "ima_log_file": "/dev/null"
+}

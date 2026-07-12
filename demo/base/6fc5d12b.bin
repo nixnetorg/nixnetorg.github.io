@@ -1,0 +1,2 @@
+config {}
+global/lvresize_fs_helper_executable = /nix/store/dk59d06y66l76hmdwp3ziwpvm6fp8nz3-lvm2-2.03.39-scripts/libexec/lvresize_fs_helper

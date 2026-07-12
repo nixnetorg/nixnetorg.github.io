@@ -1,0 +1,4 @@
+[Unit]
+BindsTo=graphical-session.target
+Description=Fake graphical-session target for non-systemd-aware sessions
+

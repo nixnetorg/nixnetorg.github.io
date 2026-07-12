@@ -1,0 +1,8 @@
+prefix=/nix/store/vf7sk0mznl74ar2q7xly9bxbbp0n2mx9-hwdata-0.406
+datadir=${prefix}/share
+pkgdatadir=${pc_sysrootdir}${datadir}/hwdata
+
+Name: hwdata
+Description: Hardware identification and configuration data
+Version: 0.406
+URL: https://github.com/vcrhonek/hwdata

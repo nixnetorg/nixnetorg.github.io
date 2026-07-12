@@ -1,0 +1,20 @@
+# Aliases extracted from modules themselves.
+alias net-sch-htb sch_htb
+alias net-sch-clsact sch_ingress
+alias net-sch-ingress sch_ingress
+alias net-sch-tbf sch_tbf
+alias net-sch-prio sch_prio
+alias net-pf-16-proto-12 nfnetlink
+alias nf_conntrack-10 nf_conntrack
+alias nf_conntrack-2 nf_conntrack
+alias ip_conntrack nf_conntrack
+alias nfnetlink-subsys-10 nf_tables
+alias ip6t_icmp6 xt_tcpudp
+alias ipt_icmp xt_tcpudp
+alias ip6t_tcp xt_tcpudp
+alias ip6t_udp xt_tcpudp
+alias ipt_tcp xt_tcpudp
+alias ipt_udp xt_tcpudp
+alias xt_udp xt_tcpudp
+alias xt_tcp xt_tcpudp
+alias rtnl-link-bridge bridge

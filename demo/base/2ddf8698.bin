@@ -1,0 +1,10 @@
+prefix=/nix/store/3pda7512c46pmqzlbcnshpi48ggzi1c1-libapparmor-4.1.7
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: libapparmor
+Description: AppArmor library for for utility functions
+Version: 4.1.7
+Cflags: -I${includedir}
+Libs: -L${libdir} -lapparmor

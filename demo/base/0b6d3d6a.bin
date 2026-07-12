@@ -1,0 +1,11 @@
+#!/nix/store/44gwyx244fz1rd90z01jpci3vv3ld29i-bash-interactive-5.3p9/bin/sh
+#
+# ref - Check spelling of the arguments
+#
+# Usage: ref word ..
+#
+# can be used for the K command of Vim
+#
+spell <<EOF
+$*
+EOF

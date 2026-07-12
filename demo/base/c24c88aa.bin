@@ -1,0 +1,2 @@
+#! /nix/store/ksdxvc92sa7h6yppixfl4xyj6632vf0x-bash-5.3p9/bin/bash -e
+exec -a "$0" "/nix/store/hd3r6w0sb5cc8yz33a3s4yyggp55ykh0-gzip-1.14/bin/.gzip-wrapped"  ${GZIP_NO_TIMESTAMPS:+-n} "$@" 

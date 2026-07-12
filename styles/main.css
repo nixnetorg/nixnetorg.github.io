@@ -1,0 +1,322 @@
+@charset "UTF-8";
+@font-face {
+  font-family: "Roboto Flex";
+  src: url("../fonts/RobotoFlex-Variable.woff2") format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: "NerdFonts";
+  src: url("../fonts/SymbolsNerdFont-Regular.woff2") format("woff2");
+  font-display: block;
+}
+.nf {
+  font-family: "NerdFonts", sans-serif;
+  font-style: normal;
+  line-height: 1;
+}
+
+:root {
+  --color-bg: #fafafa;
+  --color-text: #0d1117;
+  --color-accent: #5279ba;
+  --color-accent-hover: #7fb8e3;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme=light]) {
+    --color-bg: #0d1117;
+    --color-text: #eeeeee;
+    --color-accent: #7fb8e3;
+    --color-accent-hover: #5279ba;
+  }
+}
+[data-theme=dark] {
+  --color-bg: #0d1117;
+  --color-text: #eeeeee;
+  --color-accent: #7fb8e3;
+  --color-accent-hover: #5279ba;
+}
+
+[data-theme=light] {
+  --color-bg: #fafafa;
+  --color-text: #0d1117;
+  --color-accent: #5279ba;
+  --color-accent-hover: #7fb8e3;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  max-width: 900px;
+  min-width: 450px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  font-family: "Roboto Flex", sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+h1, h2, h3, h4, h5 {
+  font-weight: 800;
+  -webkit-font-smoothing: antialiased;
+}
+
+h2 {
+  margin-top: 60px;
+  margin-bottom: 20px;
+}
+
+.user-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 3rem;
+  margin: 2rem 0;
+}
+.user-logos img {
+  height: 2.5rem;
+  width: auto;
+  filter: drop-shadow(10px 0px 10px rgba(255, 255, 255, 0.4666666667)) drop-shadow(-10px 0px 10px rgba(255, 255, 255, 0.4666666667)) drop-shadow(0px 10px 10px rgba(255, 255, 255, 0.4666666667)) drop-shadow(0px -10px 10px rgba(255, 255, 255, 0.4666666667));
+}
+
+.boxed > article {
+  position: relative;
+  text-align: left;
+  margin: 1.5rem auto;
+  max-width: 550px;
+  padding: 1rem 1.25rem;
+}
+.boxed > article::before, .boxed > article::after {
+  content: "";
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  border-color: var(--color-text);
+  border-style: solid;
+}
+.boxed > article::before {
+  top: 0;
+  left: 0;
+  border-width: 3px 0 0 3px;
+}
+.boxed > article::after {
+  bottom: 0;
+  right: 0;
+  border-width: 0 3px 3px 0;
+}
+.boxed > article h3 {
+  display: inline;
+}
+.boxed > article a {
+  display: inline-block;
+  font-family: "NerdFonts", sans-serif;
+  margin-left: 0.4rem;
+  color: var(--color-accent);
+  text-decoration: none;
+  vertical-align: middle;
+  transform: translateY(-0.15rem);
+}
+.boxed > article a::before {
+  content: "\f08e";
+}
+.boxed > article a:hover {
+  color: var(--color-accent-hover);
+}
+.boxed > article .author {
+  margin-top: 0.2rem;
+  margin-bottom: 0.25rem;
+}
+.boxed > article .venue {
+  opacity: 0.6;
+}
+
+@keyframes cursor-blink {
+  0% {
+    background-color: var(--color-bg);
+  }
+  50% {
+    background-color: transparent;
+  }
+}
+body > div[style*="-50000px"] {
+  position: fixed !important;
+}
+
+#demo {
+  --termw: 570px;
+}
+#demo #terminal {
+  overflow: hidden;
+  border-width: 12px;
+  border-radius: 12px;
+  border-style: solid;
+  border-color: var(--color-text);
+  width: var(--termw);
+  max-width: 100%;
+  height: 350px;
+  margin: 1rem auto 0;
+  background: var(--color-text);
+  text-align: left;
+}
+#demo #terminal .xterm, #demo #terminal .xterm-viewport, #demo #terminal .xterm-screen {
+  height: 100% !important;
+}
+#demo #terminal .xterm-viewport {
+  background: transparent !important;
+}
+#demo #terminal .xterm-rows div {
+  color: var(--color-bg);
+}
+#demo #terminal .xterm-rows .xterm-cursor-blink {
+  background-color: var(--color-bg);
+  animation: cursor-blink 1s step-end infinite;
+}
+#demo #terminal .xterm-rows .xterm-cursor-outline {
+  outline-color: var(--color-bg);
+}
+#demo #terminal {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--color-bg) 50%, transparent) transparent;
+}
+#demo #fallback {
+  color: var(--color-bg);
+  background: var(--color-text);
+  font: 15px/1.2 "Courier New", monospace;
+  padding: 4px 6px;
+  width: 100%;
+  height: 100%;
+  text-align: left;
+}
+#demo #status {
+  display: flex;
+  justify-content: space-between;
+  width: var(--termw);
+  max-width: 100%;
+  margin: 8px auto;
+  color: var(--color-text);
+  font-size: small;
+  min-height: 1.4em;
+  letter-spacing: 0.01em;
+  padding: 0 20px;
+}
+#demo #status #status-right {
+  text-align: right;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.2rem;
+  background: var(--color-accent);
+  border: none;
+  color: var(--color-bg);
+  text-decoration: none;
+  letter-spacing: 0.03em;
+  transition: background-color 0.2s;
+}
+.btn:hover {
+  background: var(--color-accent-hover);
+}
+
+.citation {
+  position: relative;
+  text-align: left;
+  margin: 2rem auto;
+  padding: 2rem 2.5rem;
+  max-width: 640px;
+}
+.citation::before, .citation::after {
+  position: absolute;
+  font-size: 4rem;
+  line-height: 1;
+  font-family: Georgia, serif;
+}
+.citation::before {
+  content: "“";
+  top: -0.25rem;
+  left: 0;
+}
+.citation::after {
+  content: "”";
+  bottom: 3.5rem;
+  right: 0;
+}
+.citation p {
+  font-size: 1.1rem;
+  font-style: italic;
+  margin-bottom: 1.25rem;
+}
+.citation footer {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.citation .avatar {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.citation cite {
+  font-style: normal;
+  font-size: 0.9rem;
+}
+
+header {
+  overflow: hidden;
+}
+
+.logo {
+  width: 150%;
+  max-width: 750px;
+  margin: -20px -200px -20px -205px;
+}
+
+@media (max-width: 500px) {
+  body {
+    position: relative;
+  }
+}
+.theme-toggle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font-size: 2rem;
+  font-family: "NerdFonts", sans-serif;
+  line-height: 1;
+  padding: 0.25rem;
+}
+.theme-toggle::before {
+  content: "\f050e";
+}
+[data-theme=light] .theme-toggle::before {
+  content: "\f0599";
+}
+[data-theme=dark] .theme-toggle::before {
+  content: "\f0594";
+}
+
+body > footer {
+  margin-top: 50px;
+}

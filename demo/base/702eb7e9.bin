@@ -1,0 +1,15 @@
+[Unit]
+Description=Reset console on configuration changes
+X-Restart-Triggers=/nix/store/sn1wp9yddcj7cmpa56v28zbxb6d0pd51-X-Restart-Triggers-reload-systemd-vconsole-setup
+
+[Service]
+Environment="LOCALE_ARCHIVE=/nix/store/pn0pd041jh1irc1kxlnrszmyyrvd8phr-glibc-locales-2.42-61/lib/locale/locale-archive"
+Environment="PATH=/nix/store/l2z0c4ivxc914j8h8g537zdcyfrbga2h-coreutils-9.11/bin:/nix/store/s9k320md6mg239j02wqzixs3kw69210n-findutils-4.10.0/bin:/nix/store/k3883z8hn5hsmmd5x95471h0dsxs0bg9-gnugrep-3.12/bin:/nix/store/grfx2bhxnd8d1dp5kx1sjj4a8k65f0i9-gnused-4.9/bin:/nix/store/pfg3wyjgss29k4vfpfw2hlq3kfncgzqm-systemd-260.1/bin:/nix/store/l2z0c4ivxc914j8h8g537zdcyfrbga2h-coreutils-9.11/sbin:/nix/store/s9k320md6mg239j02wqzixs3kw69210n-findutils-4.10.0/sbin:/nix/store/k3883z8hn5hsmmd5x95471h0dsxs0bg9-gnugrep-3.12/sbin:/nix/store/grfx2bhxnd8d1dp5kx1sjj4a8k65f0i9-gnused-4.9/sbin:/nix/store/pfg3wyjgss29k4vfpfw2hlq3kfncgzqm-systemd-260.1/sbin"
+Environment="TZDIR=/nix/store/zw7l9m01bhdhhgq8yfbn8qv4hy6i2623-tzdata-2026b/share/zoneinfo"
+X-ReloadIfChanged=true
+ExecReload=/run/current-system/systemd/bin/systemctl restart systemd-vconsole-setup
+ExecStart=/nix/store/l2z0c4ivxc914j8h8g537zdcyfrbga2h-coreutils-9.11/bin/true
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target
