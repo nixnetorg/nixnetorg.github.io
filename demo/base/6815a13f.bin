@@ -1,0 +1,5 @@
+#!/nix/store/ksdxvc92sa7h6yppixfl4xyj6632vf0x-bash-5.3p9/bin/bash
+set -e
+
+exec /nix/store/f47gyh6r3vwsdd4a1kl4044fa3vshbjh-nix-2.34.7/bin/nix-collect-garbage 
+

@@ -1,0 +1,15 @@
+[Unit]
+Description=Import lastlog data into lastlog2 database
+Documentation=man:lastlog2(8)
+After=local-fs.target
+ConditionPathExists=/var/log/lastlog
+ConditionPathExists=!/var/lib/lastlog/lastlog2.db
+
+[Service]
+Type=oneshot
+ExecStart=/nix/store/bd5ag7r2x5z8pbww31nxhzdqijknxy5w-util-linux-2.42-lastlog/bin/lastlog2 --import /var/log/lastlog
+ExecStartPost=/nix/store/l2z0c4ivxc914j8h8g537zdcyfrbga2h-coreutils-9.11/bin/mv /var/log/lastlog /var/log/lastlog.migrated
+RemainAfterExit=true
+
+[Install]
+WantedBy=default.target

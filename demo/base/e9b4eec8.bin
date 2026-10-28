@@ -1,0 +1,10 @@
+prefix=/nix/store/knvxf39fvclahn3y7dvvv02zy53l86s5-libpciaccess-0.19
+includedir=${prefix}/include
+libdir=${prefix}/lib
+
+Name: pciaccess
+Description: Library providing generic access to the PCI bus and devices
+Version: 0.19
+Requires.private: zlib
+Libs: -L${libdir} -lpciaccess
+Cflags: -I${includedir}

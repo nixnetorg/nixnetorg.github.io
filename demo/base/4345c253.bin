@@ -1,0 +1,15 @@
+#############################################
+#####   Pkg-Config file for libxcrypt   #####
+#############################################
+
+prefix=/nix/store/jwws8kb2mfphcmxhlzh03ikz98hlap3d-libxcrypt-4.5.2
+exec_prefix=${prefix}
+
+libdir=/nix/store/jwws8kb2mfphcmxhlzh03ikz98hlap3d-libxcrypt-4.5.2/lib
+includedir=/nix/store/jwws8kb2mfphcmxhlzh03ikz98hlap3d-libxcrypt-4.5.2/include
+
+Name: libxcrypt
+Version: 4.5.2
+Description: Extended crypt library for DES, MD5, Blowfish and others
+Libs: -L${libdir} -lcrypt
+Cflags: -I${includedir}

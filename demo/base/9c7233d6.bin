@@ -1,0 +1,1 @@
+root=host9p rootfstype=9p rootflags=trans=virtio,cache=loose rw console=ttyS0,115200 loglevel=4 audit=0 loglevel=4 lsm=landlock,yama,bpf

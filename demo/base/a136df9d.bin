@@ -1,0 +1,16 @@
+# libnetfilter_conntrack pkg-config file
+
+prefix=/nix/store/dyj9c8807mnx40b475wb2dpy7sb3alhg-libnetfilter_conntrack-1.1.1
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: libnetfilter_conntrack
+Description: netfilter userspace conntrack access library
+URL: http://netfilter.org/projects/libnetfilter_conntrack/
+Version: 1.1.1
+Requires: libnfnetlink
+Conflicts:
+Libs: -L${libdir} -lnetfilter_conntrack
+Libs.private: -L/nix/store/9lh4habn7v8y1n29hl4cbahgpxf8m0pp-libnfnetlink-1.0.2/lib -lnfnetlink -L/nix/store/v35j126qzj120da0ny7rkgv6ffv1lf6q-libmnl-1.0.5/lib -lmnl
+Cflags: -I${includedir}

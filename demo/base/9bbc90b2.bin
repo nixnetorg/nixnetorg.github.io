@@ -1,0 +1,23 @@
+#!/nix/store/ksdxvc92sa7h6yppixfl4xyj6632vf0x-bash-5.3p9/bin/bash
+set -e
+
+export PATH=
+for i in /nix/store/l2z0c4ivxc914j8h8g537zdcyfrbga2h-coreutils-9.11 /nix/store/k3883z8hn5hsmmd5x95471h0dsxs0bg9-gnugrep-3.12 /nix/store/s9k320md6mg239j02wqzixs3kw69210n-findutils-4.10.0 /nix/store/3xq4mb1ynjbzbmf5yrkdjmwrbicmfxzp-getent-glibc-2.42-61 /nix/store/yi3gsp8pgylzcc3qs24h3b9hq4n9dvg2-glibc-2.42-61-bin /nix/store/h1pq6yacwrxv3gvy47jmq2p0j47rm8gw-shadow-4.19.4 /nix/store/gxy7alfvzpsp49bvbbmai3dsi21w91zn-util-linux-2.42-bin; do
+  PATH=$PATH:$i/bin:$i/sbin
+done
+
+_status=0
+trap "_status=1 _localstatus=\$?" ERR
+
+#### Activation script snippet tmpfiles:
+_localstatus=0
+/nix/store/pfg3wyjgss29k4vfpfw2hlq3kfncgzqm-systemd-260.1/bin/systemd-tmpfiles --user --create --remove
+
+if (( _localstatus > 0 )); then
+  printf "Activation script snippet '%s' failed (%s)\n" "tmpfiles" "$_localstatus"
+fi
+
+
+exit $_status
+
+

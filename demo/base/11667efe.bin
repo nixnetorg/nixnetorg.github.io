@@ -1,0 +1,21 @@
+# This file is created automatically and should not be modified.
+# Please change the option ‘systemd.tmpfiles.rules’ instead.
+
+d /run/keys 0750 root 96
+z /run/keys 0750 root 96
+d  /run/lock                          0755 root root - -
+d  /var/db                            0755 root root - -
+L  /var/lock                          -    -    -    - ../run/lock
+R! /etc/group.lock                    -    -    -    - -
+R! /etc/passwd.lock                   -    -    -    - -
+R! /etc/shadow.lock                   -    -    -    - -
+d /run/binfmt 0755 -
+D /var/empty 0555 root root -
+h /var/empty - - - - +i
+d /nix/var/nix/gcroots -
+L+ /nix/var/nix/gcroots/current-system - - - - /run/current-system
+d  /nix/var                           0755 root root - -
+L+ /nix/var/nix/gcroots/booted-system 0755 root root - /run/booted-system
+R! /nix/var/nix/gcroots/tmp           -    -    -    - -
+R! /nix/var/nix/temproots             -    -    -    - -
+r /lib/ld-linux.so.2 - - - - -

@@ -1,0 +1,2 @@
+# enable and prefer IPv6 privacy addresses by default
+ACTION=="add", SUBSYSTEM=="net", RUN+="/nix/store/44gwyx244fz1rd90z01jpci3vv3ld29i-bash-interactive-5.3p9/bin/sh -c 'echo 2 > /proc/sys/net/ipv6/conf/$name/use_tempaddr'"

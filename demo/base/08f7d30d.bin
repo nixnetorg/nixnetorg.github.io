@@ -1,0 +1,9 @@
+#!/nix/store/ksdxvc92sa7h6yppixfl4xyj6632vf0x-bash-5.3p9/bin/bash
+set -e
+
+# NixOS pre-shutdown script
+
+# config.powerManagement.powerDownCommands
+
+
+

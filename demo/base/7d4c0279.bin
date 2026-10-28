@@ -1,0 +1,157 @@
+#!/nix/store/ksdxvc92sa7h6yppixfl4xyj6632vf0x-bash-5.3p9/bin/bash
+set -o errexit
+set -o nounset
+set -o pipefail
+
+set -m  # enable job control: each background job gets its own process group
+
+declare -A PIDS=()
+declare -A WAIT_PIDS=()
+_FAILED=0
+
+stop_pids() {
+  local -A _remaining=()
+  for PID in "${!PIDS[@]}"; do
+    _remaining[$PID]=1
+    kill -INT -- -"$PID" 2>/dev/null || true
+    echo "testbed| PID $PID killed"
+  done
+  if [ "${#_remaining[@]}" -gt 0 ]; then
+    ( sleep 5
+      for _p in "${!_remaining[@]}"; do
+        kill -KILL -- -"$_p" 2>/dev/null || true
+      done
+    ) &
+    local _alarm=$!
+    while [ "${#_remaining[@]}" -gt 0 ]; do
+      local _DONE=""
+      wait -np _DONE "${!_remaining[@]}" 2>/dev/null || true
+      [ -n "${_DONE-}" ] || break
+      unset "_remaining[$_DONE]"
+    done
+    kill -- -"$_alarm" 2>/dev/null || true
+    wait "$_alarm" 2>/dev/null || true
+  fi
+  PIDS=()
+}
+
+cleanup() {
+  _FAILED=$?
+  echo "testbed| cleaning up..."
+  stop_pids
+  exit "$_FAILED"
+}
+trap cleanup EXIT
+trap 'stop_pids; exit 130' INT TERM
+
+if [ -n "$(ls -A . 2>/dev/null)" ]; then
+  echo "testbed| Error: workDir is not empty: $(pwd)"
+  exit 1
+fi
+
+_STORE_PATH="$(dirname "$(dirname "$0")")"
+/nix/store/whfjddffvlqpcba6p53yzx44h72yyp1k-write_run_json/bin/write_run_json "$_STORE_PATH"
+
+
+# create nodes
+_PATH="" # clear path
+_PATH="/nix/store/7ra6nix64wid0f9rnmh4s0fd3rzrispp-iputils-20250605/bin:$_PATH"
+_PATH="/nix/store/6c0fjwgaxpnnlk5yna14kpan6f0442g3-busybox-mini/bin:$_PATH"
+_PATH="/nix/store/ksdxvc92sa7h6yppixfl4xyj6632vf0x-bash-5.3p9/bin:$_PATH"
+_PATH="/nix/store/l2z0c4ivxc914j8h8g537zdcyfrbga2h-coreutils-9.11/bin:$_PATH"
+_PATH="/nix/store/c9dvy4xm2a4r8fc7pik3871xbh6z2401-iproute2-7.0.0/bin:$_PATH"
+_PATH="/nix/store/gnhnf55iv89m2g9cq5xbgxriwgqarbn0-util-linux-minimal-2.42-bin/bin:$_PATH"
+mkdir -p 'client'
+jail add \
+  --setenv PATH=$_PATH \
+  --bind 'client' /pwd \
+  --chdir /pwd \
+  client
+_PATH="" # clear path
+_PATH="/nix/store/6c0fjwgaxpnnlk5yna14kpan6f0442g3-busybox-mini/bin:$_PATH"
+_PATH="/nix/store/ksdxvc92sa7h6yppixfl4xyj6632vf0x-bash-5.3p9/bin:$_PATH"
+_PATH="/nix/store/l2z0c4ivxc914j8h8g537zdcyfrbga2h-coreutils-9.11/bin:$_PATH"
+_PATH="/nix/store/c9dvy4xm2a4r8fc7pik3871xbh6z2401-iproute2-7.0.0/bin:$_PATH"
+_PATH="/nix/store/gnhnf55iv89m2g9cq5xbgxriwgqarbn0-util-linux-minimal-2.42-bin/bin:$_PATH"
+mkdir -p 'server'
+jail add \
+  --setenv PATH=$_PATH \
+  --bind 'server' /pwd \
+  --chdir /pwd \
+  server
+
+# sysctl settings
+ip netns exec client sysctl -q -w \
+  net.ipv4.ip_unprivileged_port_start=0 \
+  net.ipv4.ping_group_range="0 0"
+ip netns exec server sysctl -q -w \
+  net.ipv4.ip_unprivileged_port_start=0 \
+  net.ipv4.ping_group_range="0 0"
+
+# create veth pairs
+ip -n client link add veth0 type veth peer name veth0 netns server
+
+# assign ipv4 addresses
+ip -n client -b - <<-'EOF'
+	addr add 10.0.0.1/24 dev veth0
+EOF
+ip -n server -b - <<-'EOF'
+	addr add 10.0.0.2/24 dev veth0
+EOF
+
+# set interfaces up
+ip -n client -b - <<-'EOF'
+	link set lo up
+	link set veth0 up
+EOF
+ip -n server -b - <<-'EOF'
+	link set lo up
+	link set veth0 up
+EOF
+
+# configure arp
+ip -n client -b - <<-'EOF'
+	link set veth0 arp off
+EOF
+ip -n server -b - <<-'EOF'
+	link set veth0 arp off
+EOF
+
+# prefill arp
+_MAC=$(ip netns exec server cat /sys/class/net/veth0/address)
+ip -n client neigh add 10.0.0.2 lladdr "$_MAC" dev veth0
+_MAC=$(ip netns exec client cat /sys/class/net/veth0/address)
+ip -n server neigh add 10.0.0.1 lladdr "$_MAC" dev veth0
+
+# node post-setup hooks
+ip netns exec client bash -c 'tc qdisc add dev veth0 root netem delay 50ms 15ms loss 10%'
+
+ip netns exec server bash -c 'tc qdisc add dev veth0 root netem delay 50ms 15ms loss 10%'
+
+
+echo "testbed| network topology set up"
+
+# launch background scripts
+(
+  set +m
+  set -o pipefail
+  stdbuf -oL jail enter client "$(dirname "$0")/../nodes/client/scripts/main" 2>&1 | sed 's/^/client| /'
+) &
+echo "client| main (PID $!) started"
+PIDS[$!]=1
+WAIT_PIDS[$!]=1
+
+# wait for background processes marked as await
+_FAILED=0
+while [ "${#WAIT_PIDS[@]}" -gt 0 ]; do
+  _EXIT=0
+  _DONE=""
+  wait -np _DONE "${!PIDS[@]}" 2>/dev/null || _EXIT=$?  # watch all PIDs so background exits are collected
+  [ -n "${_DONE-}" ] || break
+  echo "testbed| PID $_DONE exited with $_EXIT"
+  [ "$_EXIT" -eq 0 ] || _FAILED=1
+  unset "PIDS[$_DONE]"
+  unset "WAIT_PIDS[$_DONE]"
+done
+[ "$_FAILED" -eq 0 ] || exit 1
+stop_pids

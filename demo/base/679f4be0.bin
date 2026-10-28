@@ -1,0 +1,10 @@
+<?xml version='1.0'?>
+<!DOCTYPE fontconfig SYSTEM 'urn:fontconfig:fonts.dtd'>
+<fontconfig>
+  <!-- Font directories -->
+  
+  <!-- Pre-generated font caches -->
+<cachedir>/nix/store/ifn11wl57mldyg095l5008vdv2cm84y4-fc-cache</cachedir>
+
+
+</fontconfig>

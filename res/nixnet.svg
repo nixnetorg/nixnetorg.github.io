@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 -8 144 144" width="144" height="144">
+  <line x1="2" y1="64.237" x2="32.022" y2="64.246" fill="none" stroke="#7fb8e3" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" />
+  <line x1="16.999" y1="90.411" x2="47.797" y2="36.429" fill="none" stroke="#7fb8e3" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" />
+  <line x1="32.795" y1="10.425" x2="47.797" y2="36.429" fill="none" stroke="#7fb8e3" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" />
+  <line x1="17.626" y1="36.502" x2="79.776" y2="36.183" fill="none" stroke="#7fb8e3" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" />
+  <line x1="94.795" y1="10.188" x2="79.776" y2="36.183" fill="none" stroke="#7fb8e3" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" />
+  <line x1="64.627" y1="10.09" x2="95.978" y2="63.754" fill="none" stroke="#7fb8e3" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" />
+  <line x1="126" y1="63.763" x2="95.978" y2="63.754" fill="none" stroke="#7fb8e3" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" />
+  <line x1="111.001" y1="37.589" x2="80.203" y2="91.571" fill="none" stroke="#7fb8e3" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" />
+  <line x1="95.205" y1="117.575" x2="80.203" y2="91.571" fill="none" stroke="#7fb8e3" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" />
+  <line x1="110.374" y1="91.498" x2="48.224" y2="91.817" fill="none" stroke="#7fb8e3" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" />
+  <line x1="33.205" y1="117.812" x2="48.224" y2="91.817" fill="none" stroke="#7fb8e3" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" />
+  <line x1="63.373" y1="117.91" x2="32.022" y2="64.246" fill="none" stroke="#7fb8e3" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" />
+  <circle cx="2" cy="64.237" r="6" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1" />
+  <circle cx="32.795" cy="10.425" r="6" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1" />
+  <circle cx="94.795" cy="10.188" r="6" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1" />
+  <circle cx="126" cy="63.763" r="6" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1" />
+  <circle cx="95.205" cy="117.575" r="6" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1" />
+  <circle cx="33.205" cy="117.812" r="6" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1" />
+  <circle cx="32.022" cy="64.246" r="6" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1" />
+  <circle cx="47.797" cy="36.429" r="6" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1" />
+  <circle cx="79.776" cy="36.183" r="6" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1" />
+  <circle cx="95.978" cy="63.754" r="6" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1" />
+  <circle cx="80.203" cy="91.571" r="6" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1" />
+  <circle cx="48.224" cy="91.817" r="6" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1" />
+  <circle cx="16.999" cy="90.411" r="6" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1" />
+  <circle cx="17.626" cy="36.502" r="6" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1" />
+  <circle cx="64.627" cy="10.09" r="6" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1" />
+  <circle cx="111.001" cy="37.589" r="6" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1" />
+  <circle cx="110.374" cy="91.498" r="6" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1" />
+  <circle cx="63.373" cy="117.91" r="6" fill="#5279ba" stroke="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1" />
+</svg>

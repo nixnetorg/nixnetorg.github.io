@@ -1,0 +1,10 @@
+prefix=/nix/store/525jbcj4vcm732bcv41ari1kyaqzc75y-yyjson-0.12.0
+exec_prefix=/nix/store/525jbcj4vcm732bcv41ari1kyaqzc75y-yyjson-0.12.0
+libdir=/nix/store/525jbcj4vcm732bcv41ari1kyaqzc75y-yyjson-0.12.0//nix/store/525jbcj4vcm732bcv41ari1kyaqzc75y-yyjson-0.12.0/lib
+includedir=/nix/store/525jbcj4vcm732bcv41ari1kyaqzc75y-yyjson-0.12.0//nix/store/525jbcj4vcm732bcv41ari1kyaqzc75y-yyjson-0.12.0/include
+
+Name: yyjson
+Description: Fastest JSON library in C
+Version: 0.12.0
+Libs: -L${libdir} -lyyjson
+Cflags: -I${includedir}

@@ -1,0 +1,151 @@
+#!/nix/store/ksdxvc92sa7h6yppixfl4xyj6632vf0x-bash-5.3p9/bin/bash
+
+
+export PATH="$PATH"
+
+source /nix/store/mhxn5kwnri3z9hdzi3x0980id65p0icn-lib.sh
+
+systemConfig='/nix/store/bhhd0gdga96kf717k5lpwqllvsa0hi99-nixos-system-nixos-26.05.20260608.bd0ff2d'
+
+export PATH=/empty
+for i in /nix/store/l2z0c4ivxc914j8h8g537zdcyfrbga2h-coreutils-9.11 /nix/store/k3883z8hn5hsmmd5x95471h0dsxs0bg9-gnugrep-3.12 /nix/store/s9k320md6mg239j02wqzixs3kw69210n-findutils-4.10.0 /nix/store/3xq4mb1ynjbzbmf5yrkdjmwrbicmfxzp-getent-glibc-2.42-61 /nix/store/yi3gsp8pgylzcc3qs24h3b9hq4n9dvg2-glibc-2.42-61-bin /nix/store/h1pq6yacwrxv3gvy47jmq2p0j47rm8gw-shadow-4.19.4 /nix/store/gxy7alfvzpsp49bvbbmai3dsi21w91zn-util-linux-2.42-bin; do
+    PATH=$PATH:$i/bin:$i/sbin
+done
+
+_status=0
+trap "_status=1 _localstatus=\$?" ERR
+
+# Ensure a consistent umask.
+umask 0022
+
+#### Activation script snippet binsh:
+_localstatus=0
+# Create the required /bin/sh symlink; otherwise lots of things
+# (notably the system() function) won't work.
+mkdir -p /bin
+chmod 0755 /bin
+ln -sfn "/nix/store/44gwyx244fz1rd90z01jpci3vv3ld29i-bash-interactive-5.3p9/bin/sh" /bin/.sh.tmp
+mv /bin/.sh.tmp /bin/sh # atomically replace /bin/sh
+
+if (( _localstatus > 0 )); then
+  printf "Activation script snippet '%s' failed (%s)\n" "binsh" "$_localstatus"
+fi
+
+#### Activation script snippet hashes:
+_localstatus=0
+users=()
+while IFS=: read -r user hash _; do
+  if [[ "$hash" = "$"* && ! "$hash" =~ ^\$(y|gy|sm3y|7|2b|2y|2a|6)\$ ]]; then
+    users+=("$user")
+  fi
+done </etc/shadow
+
+if (( "${#users[@]}" )); then
+  echo "
+WARNING: The following user accounts rely on password hashing algorithms
+that have been removed. They need to be renewed as soon as possible, as
+they do prevent their users from logging in."
+  printf ' - %s\n' "${users[@]}"
+fi
+
+if (( _localstatus > 0 )); then
+  printf "Activation script snippet '%s' failed (%s)\n" "hashes" "$_localstatus"
+fi
+
+#### Activation script snippet specialfs:
+_localstatus=0
+specialMount() {
+  local device="$1"
+  local mountPoint="$2"
+  local options="$3"
+  local fsType="$4"
+
+  if mountpoint -q "$mountPoint"; then
+    local options="remount,$options"
+  else
+    mkdir -p "$mountPoint"
+    chmod 0755 "$mountPoint"
+  fi
+  mount -t "$fsType" -o "$options" "$device" "$mountPoint"
+}
+source /nix/store/kjgjkchdxxdicki1rsifi9k8pdm460f9-mounts.sh
+
+if (( _localstatus > 0 )); then
+  printf "Activation script snippet '%s' failed (%s)\n" "specialfs" "$_localstatus"
+fi
+
+#### Activation script snippet modprobe:
+_localstatus=0
+# Allow the kernel to find our wrapped modprobe (which searches
+# in the right location in the Nix store for kernel modules).
+# We need this when the kernel (or some module) auto-loads a
+# module.
+echo /nix/store/3ciwd6xr2knkkisd1fwkkzrwm83062sp-kmod-31/bin/modprobe > /proc/sys/kernel/modprobe
+
+if (( _localstatus > 0 )); then
+  printf "Activation script snippet '%s' failed (%s)\n" "modprobe" "$_localstatus"
+fi
+
+#### Activation script snippet no-nix-channel:
+_localstatus=0
+# shellcheck shell=bash
+
+explainChannelWarning=0
+if [[ -e "/root/.nix-defexpr/channels" ]]; then
+    warn '/root/.nix-defexpr/channels exists, but channels have been disabled.'
+    explainChannelWarning=1
+fi
+if [[ -e "/nix/var/nix/profiles/per-user/root/channels" ]]; then
+    warn "/nix/var/nix/profiles/per-user/root/channels exists, but channels have been disabled."
+    explainChannelWarning=1
+fi
+while IFS=: read -r _ _ _ _ _ home _ ; do
+    if [[ -n  "$home" && -e "$home/.nix-defexpr/channels" ]]; then
+        warn "$home/.nix-defexpr/channels exists, but channels have been disabled." 1>&2
+        explainChannelWarning=1
+    fi
+done < <(getent passwd)
+if [[ $explainChannelWarning -eq 1 ]]; then
+    echo "Due to https://github.com/NixOS/nix/issues/9574, Nix may still use these channels when NIX_PATH is unset." 1>&2
+    echo "Delete the above directory or directories to prevent this." 1>&2
+fi
+
+if (( _localstatus > 0 )); then
+  printf "Activation script snippet '%s' failed (%s)\n" "no-nix-channel" "$_localstatus"
+fi
+
+#### Activation script snippet udevd:
+_localstatus=0
+# The deprecated hotplug uevent helper is not used anymore
+if [ -e /proc/sys/kernel/hotplug ]; then
+  echo "" > /proc/sys/kernel/hotplug
+fi
+
+# Allow the kernel to find our firmware.
+if [ -e /sys/module/firmware_class/parameters/path ]; then
+  echo -n "/nix/store/b27bav8q2vq1qxspdrhxw33js8dhb7g8-firmware/lib/firmware" > /sys/module/firmware_class/parameters/path
+fi
+
+if (( _localstatus > 0 )); then
+  printf "Activation script snippet '%s' failed (%s)\n" "udevd" "$_localstatus"
+fi
+
+#### Activation script snippet usrbinenv:
+_localstatus=0
+mkdir -p /usr/bin
+chmod 0755 /usr/bin
+ln -sfn /nix/store/l2z0c4ivxc914j8h8g537zdcyfrbga2h-coreutils-9.11/bin/env /usr/bin/.env.tmp
+mv /usr/bin/.env.tmp /usr/bin/env # atomically replace /usr/bin/env
+
+if (( _localstatus > 0 )); then
+  printf "Activation script snippet '%s' failed (%s)\n" "usrbinenv" "$_localstatus"
+fi
+
+# Make this configuration the current configuration.
+# The readlink is there to ensure that when $systemConfig = /system
+# (which is a symlink to the store), /run/current-system is still
+# used as a garbage collection root.
+ln -sfn "$(readlink -f "$systemConfig")" /run/current-system
+
+exit $_status
+

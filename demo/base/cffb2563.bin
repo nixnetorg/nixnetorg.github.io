@@ -1,0 +1,13 @@
+prefix=/nix/store/mdqfwvsr50aawjc09rf8qv4cgqp65nl9-npth-1.8
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+api_version=1
+host=i686-pc-linux-gnu
+
+Name: npth
+Description: New GNU Portable Threads Library
+Version: 1.8-unknown
+Libs: -L${libdir} -lnpth  
+Cflags: -I${includedir} 
+URL: https://www.gnupg.org/software/npth/index.html

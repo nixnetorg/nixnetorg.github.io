@@ -1,0 +1,32 @@
+{
+  "org.nixos.bootspec.v1": {
+    "init": "/nix/store/bhhd0gdga96kf717k5lpwqllvsa0hi99-nixos-system-nixos-26.05.20260608.bd0ff2d/init",
+    "kernel": "/nix/store/yrykmxkx4a9cxa9k9766yc3gv774lsaw-linux-6.18.34/bzImage",
+    "kernelParams": [
+      "root=host9p",
+      "rootfstype=9p",
+      "rootflags=trans=virtio,cache=loose",
+      "rw",
+      "console=ttyS0,115200",
+      "loglevel=4",
+      "audit=0",
+      "loglevel=4",
+      "lsm=landlock,yama,bpf"
+    ],
+    "label": "NixOS Yarara 26.05.20260608.bd0ff2d (Linux 6.18.34)",
+    "system": "i686-linux",
+    "toplevel": "/nix/store/bhhd0gdga96kf717k5lpwqllvsa0hi99-nixos-system-nixos-26.05.20260608.bd0ff2d"
+  },
+  "org.nixos.nixos-init.v1": {
+    "env_binary": "/nix/store/l2z0c4ivxc914j8h8g537zdcyfrbga2h-coreutils-9.11/bin/env",
+    "firmware": "/nix/store/b27bav8q2vq1qxspdrhxw33js8dhb7g8-firmware/lib/firmware",
+    "modprobe_binary": "/nix/store/3ciwd6xr2knkkisd1fwkkzrwm83062sp-kmod-31/bin/modprobe",
+    "nix_store_mount_opts": [
+      "ro",
+      "nodev",
+      "nosuid"
+    ],
+    "sh_binary": "/nix/store/44gwyx244fz1rd90z01jpci3vv3ld29i-bash-interactive-5.3p9/bin/sh"
+  },
+  "org.nixos.specialisation.v1": {}
+}

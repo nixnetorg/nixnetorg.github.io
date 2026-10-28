@@ -1,0 +1,4 @@
+{
+  "profile_dir": "/nix/store/lxwa339rlfb289rkwx6lwff18kvp3nzn-tpm2-tss-4.1.3/etc/tpm2-tss/fapi-profiles/",
+  "system_pcrs" : []
+}

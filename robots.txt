@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nixnet.org/sitemap.xml

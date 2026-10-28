@@ -1,0 +1,49 @@
+name: Test Examples
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+
+jobs:
+  run:
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        runner:
+          - ubuntu-latest
+          - ubuntu-24.04-arm
+        example:
+          - name: bind
+          - name: ebpf
+            sudo: true
+          - name: enter
+          - name: iperf
+          - name: nc
+          - name: ping
+          - name: quiche_perf
+          - name: route_metric
+          - name: msquic
+          - name: star_topology
+          - name: tcpdump
+          - name: chromium
+            skip_run: true # requires display
+          - name: tmux
+            skip_run: true # requires interactive terminal
+    steps:
+      - uses: actions/checkout@v6
+      - uses: DeterminateSystems/nix-installer-action@v22
+      - name: Configure kernel
+        run: |
+          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+          sudo sysctl -w kernel.perf_event_paranoid=1
+      - name: Run ${{ matrix.example.name }}
+        if: ${{ !matrix.example.skip_run }}
+        run: ${{ matrix.example.sudo && 'sudo $(which nix)' || 'nix' }} run ./examples/${{ matrix.example.name }} --override-input nixnet path:.
+      - name: Build ${{ matrix.example.name }} mermaid
+        run: nix build ./examples/${{ matrix.example.name }}#mermaid --override-input nixnet path:.
+      - name: Build ${{ matrix.example.name }} mermaid SVG
+        run: nix build ./examples/${{ matrix.example.name }}#mermaid-svg --override-input nixnet path:.

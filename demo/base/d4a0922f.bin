@@ -1,0 +1,10 @@
+fs.inotify.max_user_instances=524288
+fs.inotify.max_user_watches=524288
+kernel.kptr_restrict=1
+kernel.poweroff_cmd=/nix/store/pfg3wyjgss29k4vfpfw2hlq3kfncgzqm-systemd-260.1/sbin/poweroff
+kernel.printk=4
+net.ipv4.ping_group_range=0 2147483647
+net.ipv6.conf.all.disable_ipv6=0
+net.ipv6.conf.default.disable_ipv6=0
+net.ipv6.conf.default.use_tempaddr=2
+vm.max_map_count=1048576

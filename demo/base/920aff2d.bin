@@ -1,0 +1,13 @@
+# See: man pkg-config
+prefix=/nix/store/drmj5fi4nnjry10qhdsiviih7dg5834b-python3-3.13.13
+exec_prefix=${prefix}
+libdir=/nix/store/drmj5fi4nnjry10qhdsiviih7dg5834b-python3-3.13.13/lib
+includedir=/nix/store/drmj5fi4nnjry10qhdsiviih7dg5834b-python3-3.13.13/include
+
+Name: Python
+Description: Build a C extension for Python
+Requires:
+Version: 3.13
+Libs.private: -ldl 
+Libs: -L${libdir} 
+Cflags: -I${includedir}/python3.13

@@ -1,0 +1,8 @@
+[Unit]
+
+[Mount]
+Options=mode=0700
+Type=tmpfs
+What=tmpfs
+Where=/run/initramfs
+

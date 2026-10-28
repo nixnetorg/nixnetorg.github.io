@@ -1,0 +1,3 @@
+# load syntax highlighting files
+include "/nix/store/iqpryisznmm5ay94g5gk1a1xg8fwn75a-nano-9.0/share/nano/*.nanorc"
+include "/nix/store/iqpryisznmm5ay94g5gk1a1xg8fwn75a-nano-9.0/share/nano/extra/*.nanorc"

@@ -1,0 +1,142 @@
+#!/usr/bin/env bash
+# Lightweight sandbox using Linux user/mount/net/pid namespaces and pivot_root.
+# Named jails (jail add) pin namespaces under /run/jail/<name> and register the
+# network namespace at /var/run/netns/<name>, making them compatible with ip netns.
+# Commands: add <name> (create named jail), enter <name> <cmd> (re-enter), exec <cmd> (one-shot).
+set -euo pipefail
+
+_unshare_jail() {
+  export NAME="$1"; shift
+  export WAYLAND=false
+  export CHDIR="/pwd"
+  export JAIL_BINDS=""
+  export JAIL_SETENV=""
+  while [[ "${1:-}" == --* ]]; do
+    case "$1" in
+      --wayland)  WAYLAND=true; shift ;;
+      --bind)     JAIL_BINDS+="rw:${2}:${3}"$'\n'; shift 3 ;;
+      --ro-bind)  JAIL_BINDS+="ro:${2}:${3}"$'\n'; shift 3 ;;
+      --setenv)   JAIL_SETENV+="${2}"$'\n'; shift 2 ;;
+      --chdir)    CHDIR="$2"; shift 2 ;;
+      *) echo "jail: unknown flag: $1" >&2; exit 1 ;;
+    esac
+  done
+
+  local user_args=("--user" "--map-root-user")
+  if [ "$(id -u)" -eq 0 ]; then
+    user_args=()
+  fi
+  local net_arg="--net"
+  local uts_arg="--uts"
+  local ipc_arg="--ipc"
+  local cgroup_arg="--cgroup"
+  local time_arg="--time"
+  local mnt_arg="--mount"
+  local pid_arg="--pid"
+
+  if [ -n "$NAME" ]; then
+    mkdir -p "/run/jail/$NAME"
+    mkdir -p "/var/run/netns"
+    touch "/run/jail/$NAME/user"
+    touch "/var/run/netns/$NAME"
+    if [ "$(id -u)" -ne 0 ]; then
+      user_args=("--user=/run/jail/$NAME/user" "--map-root-user")
+    fi
+    net_arg="--net=/var/run/netns/$NAME"
+  fi
+
+  export HAS_USERNS=${#user_args[@]}
+  exec unshare \
+    --keep-caps \
+    --forward-signals \
+    "${user_args[@]}" \
+    "$mnt_arg" \
+    "$net_arg" \
+    "$pid_arg" \
+    --fork \
+    "$uts_arg" \
+    "$ipc_arg" \
+    "$cgroup_arg" \
+    "$time_arg" \
+    -- bash "$(dirname "$0")/jail_setup" "$@"
+}
+
+_jail_enter() {
+  local _name="$1"; shift
+  # pid file indicates jail is ready
+  if [ ! -f "/run/jail/$_name/pid" ]; then
+    echo "jail enter: '$_name' does not exist" >&2
+    exit 1
+  fi
+  local _chdir
+  _chdir="$(sed -n 's/^PWD=//p' "/run/jail/$_name/env")"
+  local -a _env
+  mapfile -t _env < "/run/jail/$_name/env"
+  local _init_pid
+  _init_pid="$(< "/run/jail/$_name/pid")"
+  local _user_arg=("--user=/run/jail/$_name/user")
+  if [ "$(id -u)" -eq 0 ]; then _user_arg=(); fi
+  # setpriv --pdeathsig TERM delivers SIGTERM to the entered command if its
+  # nsenter parent is killed, so signalling a single `jail enter` tears down just
+  # that command (running its cleanup trap) instead of orphaning it in the jail.
+  exec nsenter \
+    --preserve-credentials \
+    "${_user_arg[@]}" \
+    --mount="/proc/$_init_pid/ns/mnt" \
+    --net="/var/run/netns/$_name" \
+    --pid="/proc/$_init_pid/ns/pid" \
+    --uts="/proc/$_init_pid/ns/uts" \
+    --ipc="/proc/$_init_pid/ns/ipc" \
+    -- setpriv --pdeathsig TERM \
+    -- env \
+      --ignore-environment \
+      --chdir "$_chdir" \
+      "${_env[@]}" \
+      "$@"
+}
+
+_jail_exec() {
+  _unshare_jail "" "$@"
+}
+
+_jail_add() {
+  local _flags=()
+  while [[ "${1:-}" == --* ]]; do
+    case "$1" in
+      --bind|--ro-bind) _flags+=("$1" "$2" "$3"); shift 3 ;;
+      --setenv|--chdir) _flags+=("$1" "$2"); shift 2 ;;
+      --wayland)        _flags+=("$1"); shift ;;
+      *) echo "jail add: unknown flag: $1" >&2; exit 1 ;;
+    esac
+  done
+  local _name="$1"
+  mkdir -p "/run/jail/$_name"
+  # jail_setup writes outer init PID of jail to fifo when ready
+  local _fifo="/run/jail/$_name/.pid_fifo"
+  mkfifo "$_fifo"
+  _unshare_jail "$_name" "${_flags[@]}" "$(command -v init)" &
+  disown
+  local _init_pid
+  read -r _init_pid < "$_fifo"
+  rm -f "$_fifo"
+  printf '%s\n' "$_init_pid" > "/run/jail/$_name/pid"
+}
+
+cmd="${1:-}"
+shift || true
+
+case "$cmd" in
+  add)
+    _jail_add "$@"
+    ;;
+  exec)
+    _jail_exec "$@"
+    ;;
+  enter)
+    _jail_enter "$@"
+    ;;
+  *)
+    echo "usage: jail add <name> | jail exec <cmd>... | jail enter <name> <cmd>..." >&2
+    exit 1
+    ;;
+esac

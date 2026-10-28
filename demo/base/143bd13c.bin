@@ -1,0 +1,4 @@
+#!/nix/store/vabrsyx4s3sn35x98yz66dakxxajd0xd-perl-5.42.0/bin/perl
+$0 = "cowthink";
+$ENV{COWPATH} = "$ENV{COWPATH}" . ($ENV{COWPATH} ? ":" : "") . "/nix/store/j4hqwxdq5pv5iyd2czs3imxqkasqcwpa-cowsay-3.8.4/share/cowsay/cows";
+do "/nix/store/j4hqwxdq5pv5iyd2czs3imxqkasqcwpa-cowsay-3.8.4/bin/.cowsay-wrapped";

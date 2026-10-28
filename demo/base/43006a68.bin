@@ -1,0 +1,2 @@
+#! /bin/sh
+exec /nix/store/k3883z8hn5hsmmd5x95471h0dsxs0bg9-gnugrep-3.12/bin/grep -E "$@"

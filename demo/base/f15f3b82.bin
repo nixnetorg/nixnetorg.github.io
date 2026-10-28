@@ -1,0 +1,8 @@
+[Journal]
+Storage=persistent
+RateLimitInterval=30s
+RateLimitBurst=10000
+
+
+Audit=keep
+

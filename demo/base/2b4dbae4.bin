@@ -1,0 +1,11 @@
+prefix=/nix/store/lqpaa1nhh3y1dl7dgn14qad1nxbcspli-procps-4.0.6
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: libproc2
+Description: Library to control and query process state
+Version: 4.0.6
+Libs: -L${libdir} -lproc2
+Libs.private:
+Cflags: -I${includedir}

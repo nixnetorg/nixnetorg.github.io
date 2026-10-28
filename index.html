@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NixNet – Reproducible Network Experiments with Nix</title>
+  <meta name="description" content="NixNet runs reproducible virtual network experiments from a single Nix flake: zero setup, one command, one machine. Declare topologies, link impairments and benchmarks.">
+  <link rel="canonical" href="https://nixnet.org/">
+  <link rel="preload" href="fonts/RobotoFlex-Variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="icon" type="image/svg+xml" href="res/nixnet.svg">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nixnet.org/">
+  <meta property="og:title" content="NixNet – Reproducible Network Experiments with Nix">
+  <meta property="og:description" content="Zero-setup, single-command, Nix-powered network experiments. Try it in your browser.">
+  <meta property="og:image" content="https://nixnet.org/res/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="NixNet logo">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareSourceCode",
+        "name": "NixNet",
+        "description": "Zero-setup, single-command, single-machine, Nix-powered, hermetic, declarative, reproducible network experiments.",
+        "url": "https://nixnet.org/",
+        "codeRepository": "https://github.com/birneee/nixnet",
+        "programmingLanguage": "Nix",
+        "license": ["https://opensource.org/licenses/MIT", "https://www.apache.org/licenses/LICENSE-2.0"]
+      },
+      {
+        "@type": "ScholarlyArticle",
+        "headline": "NixNet: Reproducible Virtual Network Experiments",
+        "author": [
+          {"@type": "Person", "name": "Benedikt Spies"},
+          {"@type": "Person", "name": "Marcin Bosk"},
+          {"@type": "Person", "name": "Paulo Mendes"},
+          {"@type": "Person", "name": "Jörg Ott"}
+        ],
+        "datePublished": "2026-07-20",
+        "publisher": {"@type": "Organization", "name": "ACM/IRTF Applied Networking Research Workshop (ANRW '26)"},
+        "url": "https://www.irtf.org/anrw/2026/program.html"
+      },
+      {
+        "@type": "VideoObject",
+        "name": "NixNet: Declare Your Network Experiments as a Nix Flake",
+        "description": "NixCon 2026 talk by Benedikt Spies in Kraków, Poland.",
+        "uploadDate": "2026-10-23",
+        "duration": "PT21M5S",
+        "thumbnailUrl": "https://nixnet.org/res/talk_nixcon26_3x.webp",
+        "embedUrl": "https://www.youtube.com/embed/gAxlaIl_TG0"
+      },
+      {
+        "@type": "VideoObject",
+        "name": "NixNet: Reproducible Virtual Network Experiments",
+        "description": "ANRW '26 talk by Benedikt Spies in Vienna, Austria.",
+        "uploadDate": "2026-07-20",
+        "thumbnailUrl": "https://nixnet.org/res/talk_anrw26_3x.webp",
+        "embedUrl": "https://www.youtube.com/embed/_iodYKC_B6M?start=963"
+      }
+    ]
+  }
+  </script>
+  <style>@font-face{font-family:Roboto Flex;src:url(../fonts/RobotoFlex-Variable.woff2) format("woff2");font-display:swap}@font-face{font-family:NerdFonts;src:url(data:font/woff2;base64,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) format("woff2");font-display:block}.nf{font-family:NerdFonts,sans-serif;font-style:normal;line-height:1}:root{--color-bg: #fafafa;--color-text: #0d1117;--color-accent: #4a6fae;--color-accent-hover: #3a5a92}@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--color-bg: #0d1117;--color-text: #eeeeee;--color-accent: #7fb8e3;--color-accent-hover: #a3cbea}}[data-theme=dark]{--color-bg: #0d1117;--color-text: #eeeeee;--color-accent: #7fb8e3;--color-accent-hover: #a3cbea}[data-theme=light]{--color-bg: #fafafa;--color-text: #0d1117;--color-accent: #4a6fae;--color-accent-hover: #3a5a92}*{margin:0;padding:0;box-sizing:border-box}html{height:100%}img{height:auto}body{min-height:100%;max-width:900px;min-width:450px;margin:0 auto;padding:2rem;text-align:center;font-family:Roboto Flex,sans-serif;background-color:var(--color-bg);color:var(--color-text);transition:background-color .2s,color .2s}h1,h2,h3,h4,h5{font-weight:800;-webkit-font-smoothing:antialiased}h2{margin-top:60px;margin-bottom:20px}.user-logos{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:3rem;margin:2rem 0}.user-logos img{height:2.5rem;width:auto;filter:drop-shadow(10px 0px 10px rgba(255,255,255,.4666666667)) drop-shadow(-10px 0px 10px rgba(255,255,255,.4666666667)) drop-shadow(0px 10px 10px rgba(255,255,255,.4666666667)) drop-shadow(0px -10px 10px rgba(255,255,255,.4666666667))}.boxed>article{display:flow-root;position:relative;text-align:left;margin:1.5rem auto;max-width:550px;padding:1rem 1.25rem}.boxed>article:before,.boxed>article:after{content:"";position:absolute;width:1rem;height:1rem;border-color:var(--color-text);border-style:solid}.boxed>article:before{top:0;left:0;border-width:3px 0 0 3px}.boxed>article:after{bottom:0;right:0;border-width:0 3px 3px 0}.boxed>article h3{display:inline}.boxed>article h3+a{display:inline-block;font-family:NerdFonts,sans-serif;margin-left:.4rem;color:var(--color-accent);text-decoration:none;vertical-align:middle;transform:translateY(-.15rem)}.boxed>article h3+a:before{content:"\f08e"}.boxed>article h3+a:hover{color:var(--color-accent-hover)}.boxed>article .author{margin-top:.2rem;margin-bottom:.25rem}.boxed>article .venue{opacity:.6}.boxed>article .thumbnail{float:left;width:13rem;margin-right:1rem;position:relative}.boxed>article .thumbnail img{display:block;width:100%;aspect-ratio:16/9}.boxed>article .thumbnail:after{content:"\f04b";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:NerdFonts,sans-serif;font-size:3rem;color:#fff;text-shadow:0 0 .5rem rgba(0,0,0,.6);transition:color .2s}.boxed>article .thumbnail:hover:after{color:var(--color-accent)}@keyframes cursor-blink{0%{background-color:var(--color-bg)}50%{background-color:transparent}}@keyframes rec-hidden{0%,to{display:none}}body>div[style*="-50000px"]{position:fixed!important}#demo{--termw: 570px}#demo #terminal{position:relative;overflow:hidden;border-width:12px;border-radius:12px;border-style:solid;border-color:var(--color-text);width:var(--termw);max-width:100%;height:350px;margin:1rem auto 0;background:var(--color-text);text-align:left}#demo #terminal .xterm,#demo #terminal .xterm-viewport,#demo #terminal .xterm-screen{height:100%!important}#demo #terminal .xterm-viewport{background:transparent!important}#demo #terminal .xterm-rows div{color:var(--color-bg)}#demo #terminal .xterm-rows .xterm-cursor-blink{background-color:var(--color-bg);animation:cursor-blink 1s step-end infinite}#demo #terminal .xterm-rows .xterm-cursor-outline{outline-color:var(--color-bg)}#demo #terminal{scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--color-bg) 50%,transparent) transparent}#demo #terminal #terminal-input{position:absolute;inset:0;opacity:0;resize:none;border:0;font-size:16px}#demo #terminal #recording{height:100%;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}#demo #terminal #recording pre{margin:0 0 auto;color:var(--color-bg);font:14px Courier New,monospace;white-space:break-spaces;line-break:anywhere}#demo #terminal #recording pre>span{animation:rec-hidden var(--show) step-end}#demo #terminal #recording pre>.erased{animation:rec-hidden var(--show) step-end,rec-hidden 0s var(--hide) forwards}#demo #terminal #recording pre>.cursor:not(.erased){animation:rec-hidden var(--show) step-end,cursor-blink 1s step-end var(--show) infinite}#demo #terminal #recording .cursor{background-color:var(--color-bg)}#demo #terminal #recording .sgr-1{font-weight:700}#demo #terminal #recording .sgr-35{color:#ad7fa8}#demo #status{display:flex;justify-content:space-between;width:var(--termw);max-width:100%;margin:8px auto;color:var(--color-text);font-size:small;min-height:1.4em;letter-spacing:.01em;padding:0 20px}#demo #status #status-right{text-align:right}.btn{display:inline-flex;align-items:center;gap:.5rem;margin-top:.75rem;padding:.5rem 1rem;border-radius:.2rem;background:var(--color-accent);border:none;color:var(--color-bg);text-decoration:none;letter-spacing:.03em;transition:background-color .2s}.btn:hover{background:var(--color-accent-hover)}.citation{position:relative;text-align:left;margin:2rem auto;padding:2rem 2.5rem;max-width:640px}.citation:before,.citation:after{position:absolute;font-size:4rem;line-height:1;font-family:Georgia,serif}.citation:before{content:"\201c";top:-.25rem;left:0}.citation:after{content:"\201d";bottom:3.5rem;right:0}.citation p{font-size:1.1rem;font-style:italic;margin-bottom:1.25rem}.citation footer{margin-top:20px;display:flex;align-items:center;gap:.75rem}.citation .avatar{width:3rem;height:3rem;border-radius:50%;object-fit:cover;flex-shrink:0}.citation cite{font-style:normal;font-size:.9rem}header{overflow:hidden}.logo{width:150%;max-width:750px;margin:-20px -200px -20px -205px}@media(max-width:500px){body{position:relative}}.theme-toggle{position:absolute;top:1rem;right:1rem;background:none;border:none;color:inherit;cursor:pointer;font-size:2rem;font-family:NerdFonts,sans-serif;line-height:1;padding:.25rem}.theme-toggle:before{content:"\f050e"}[data-theme=light] .theme-toggle:before{content:"\f0599"}[data-theme=dark] .theme-toggle:before{content:"\f0594"}body>footer{margin-top:50px}
+</style>
+  <script>"use strict";const root=document.documentElement,cycle=["auto","light","dark"];function applyTheme(e){e==="auto"?(root.removeAttribute("data-theme"),localStorage.removeItem("theme")):(root.setAttribute("data-theme",e),localStorage.setItem("theme",e))}function toggleTheme(){var e;const t=(e=root.getAttribute("data-theme"))!==null&&e!==void 0?e:"auto";applyTheme(cycle[(cycle.indexOf(t)+1)%cycle.length])}const saved=localStorage.getItem("theme");saved&&applyTheme(saved),document.addEventListener("DOMContentLoaded",()=>{document.querySelector(".theme-toggle").addEventListener("click",toggleTheme)});
+</script>
+</head>
+<body>
+  <button class="theme-toggle" aria-label="Toggle theme" title="Toggle theme"></button>
+  <main>
+    <header>
+      <img src="res/nixnet_text_outline.svg" alt="NixNet Logo" class="logo" width="1216" height="410" fetchpriority="high">
+      <h1>Reproducible network experiments with Nix:<br>zero-setup, single-command, single-machine, hermetic, declarative</h1>
+    </header>
+
+    <section id="demo">
+      <h2>Demo</h2>
+      <p>Try NixNet in a VM right here in your browser.<br>But just because you can, does not mean you should!<br>This is emulated, expect it to be slow.<br>For the full experience, run it natively on your favorite Linux machine.</p>
+      <div id="terminal">
+        <div id="recording"><pre><span style="--show:2.000s">This VM is powered by v86, Linux 6.18.35
+</span><span class="cursor erased" style="--show:2.000s;--hide:2.113s"> </span><span style="--show:2.113s">~ # </span><span class="cursor erased" style="--show:2.113s;--hide:2.289s"> </span><span style="--show:2.289s">nix run
+</span><span class="cursor erased" style="--show:2.289s;--hide:4.289s"> </span><span style="--show:4.289s"></span><span class="cursor erased" style="--show:4.289s;--hide:4.366s"> </span><span style="--show:4.366s"><span class="sgr-35 sgr-1">warning:</span> you don't have Internet access; disabling some network-dependent features
+</span><span class="cursor erased" style="--show:4.366s;--hide:4.604s"> </span><span class="erased" style="--show:4.604s;--hide:4.810s">copying "/root" to the store</span><span class="cursor erased" style="--show:4.604s;--hide:4.810s"> </span><span style="--show:4.810s"></span><span class="cursor erased" style="--show:4.810s;--hide:6.810s"> </span><span style="--show:6.810s"></span><span class="cursor erased" style="--show:6.810s;--hide:7.326s"> </span><span style="--show:7.326s">testbed| workdir: /root/out/00
+</span><span class="cursor erased" style="--show:7.326s;--hide:9.326s"> </span><span style="--show:9.326s">testbed| network topology set up
+client| main (PID 535) started
+</span><span class="cursor erased" style="--show:9.326s;--hide:10.130s"> </span><span style="--show:10.130s">client| PING 10.0.0.2 (10.0.0.2) 56(84) bytes of data.
+</span><span class="cursor erased" style="--show:10.130s;--hide:11.169s"> </span><span style="--show:11.169s">client| 64 bytes from 10.0.0.2: icmp_seq=1 ttl=64 time=85.0 ms
+</span><span class="cursor erased" style="--show:11.169s;--hide:12.169s"> </span><span style="--show:12.169s">client| 64 bytes from 10.0.0.2: icmp_seq=2 ttl=64 time=125 ms
+</span><span class="cursor erased" style="--show:12.169s;--hide:13.139s"> </span><span style="--show:13.139s">client| 64 bytes from 10.0.0.2: icmp_seq=3 ttl=64 time=124 ms
+</span><span class="cursor erased" style="--show:13.139s;--hide:14.162s"> </span><span style="--show:14.162s">client| 64 bytes from 10.0.0.2: icmp_seq=4 ttl=64 time=89.8 ms
+</span><span class="cursor erased" style="--show:14.162s;--hide:15.147s"> </span><span style="--show:15.147s">client| 64 bytes from 10.0.0.2: icmp_seq=5 ttl=64 time=116 ms
+</span><span class="cursor erased" style="--show:15.147s;--hide:17.147s"> </span><span style="--show:17.147s">client| 64 bytes from 10.0.0.2: icmp_seq=6 ttl=64 time=101 ms
+</span><span class="cursor erased" style="--show:17.147s;--hide:18.142s"> </span><span style="--show:18.142s">client| 64 bytes from 10.0.0.2: icmp_seq=9 ttl=64 time=108 ms
+</span><span class="cursor erased" style="--show:18.142s;--hide:19.147s"> </span><span style="--show:19.147s">client| 64 bytes from 10.0.0.2: icmp_seq=10 ttl=64 time=106 ms
+</span><span class="cursor erased" style="--show:19.147s;--hide:20.164s"> </span><span style="--show:20.164s">client| 64 bytes from 10.0.0.2: icmp_seq=11 ttl=64 time=110 ms
+</span><span class="cursor erased" style="--show:20.164s;--hide:21.115s"> </span><span style="--show:21.115s">client| 64 bytes from 10.0.0.2: icmp_seq=12 ttl=64 time=126 ms
+</span><span class="cursor erased" style="--show:21.115s;--hide:22.160s"> </span><span style="--show:22.160s">client| 64 bytes from 10.0.0.2: icmp_seq=13 ttl=64 time=74.8 ms
+</span><span class="cursor erased" style="--show:22.160s;--hide:23.147s"> </span><span style="--show:23.147s">client| 64 bytes from 10.0.0.2: icmp_seq=14 ttl=64 time=119 ms
+</span><span class="cursor erased" style="--show:23.147s;--hide:24.163s"> </span><span style="--show:24.163s">client| 64 bytes from 10.0.0.2: icmp_seq=15 ttl=64 time=104 ms
+</span><span class="cursor erased" style="--show:24.163s;--hide:25.140s"> </span><span style="--show:25.140s">client| 64 bytes from 10.0.0.2: icmp_seq=16 ttl=64 time=115 ms
+</span><span class="cursor erased" style="--show:25.140s;--hide:26.140s"> </span><span style="--show:26.140s">client| 64 bytes from 10.0.0.2: icmp_seq=17 ttl=64 time=93.3 ms
+</span><span class="cursor erased" style="--show:26.140s;--hide:27.157s"> </span><span style="--show:27.157s">client| 64 bytes from 10.0.0.2: icmp_seq=18 ttl=64 time=93.5 ms
+</span><span class="cursor erased" style="--show:27.157s;--hide:28.166s"> </span><span style="--show:28.166s">client| 64 bytes from 10.0.0.2: icmp_seq=19 ttl=64 time=109 ms
+</span><span class="cursor erased" style="--show:28.166s;--hide:29.050s"> </span><span style="--show:29.050s">client| 64 bytes from 10.0.0.2: icmp_seq=20 ttl=64 time=118 ms
+client| 
+client| --- 10.0.0.2 ping statistics ---
+client| 20 packets transmitted, 18 received, 10% packet loss, time 19061ms
+client| rtt min/avg/max/mdev = 74.821/106.467/125.862/14.160 ms
+testbed| PID 535 exited with 0
+testbed| cleaning up...
+</span><span class="cursor erased" style="--show:29.050s;--hide:29.134s"> </span><span style="--show:29.134s">~ # </span><span class="cursor" style="--show:29.134s"> </span></pre></div>
+
+        <textarea id="terminal-input" aria-label="Terminal input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+          onfocus="this.onfocus = null; var s = document.createElement('script'); s.src = 'demo/bundle.js'; document.head.appendChild(s)"></textarea>
+      </div>
+      <div id="status">
+        <span id="status-left"></span>
+        <span id="status-right">Interacting is heavy on CPU and data</span>
+      </div>
+    </section>
+
+    <section id="examples">
+      <h2>Examples</h2>
+      <p>Browse ready-to-run experiments covering common network topologies, protocol benchmarks, and impairment scenarios.</p>
+      <a class="btn" href="https://github.com/birneee/nixnet/tree/main/examples" target="_blank" rel="noopener"><i class="nf">&#xf0c3;</i> Browse Examples</a>
+    </section>
+
+    <section id="setup">
+      <h2>Setup</h2>
+      <p>NixNet is easy to setup on any Linux machine and only requires a Nix installation.<br>Detailed instructions for your specific system are available in our documentation.</p>
+      <a class="btn" href="https://nixos.org/download.html" target="_blank" rel="noopener"><i class="nf">&#xf019;</i> Install Nix</a>
+      <a class="btn" href="https://github.com/birneee/nixnet#installation" target="_blank" rel="noopener"><i class="nf">&#xf05a;</i> View Quick Start Guide</a>
+    </section>
+
+    <section id="publications" class="boxed">
+      <h2>Publications</h2>
+      <article>
+        <h3>NixNet: Reproducible Virtual Network Experiments</h3>
+        <a href="https://www.irtf.org/anrw/2026/program.html" aria-label="Paper"></a>
+        <p class="author">Benedikt Spies, Marcin Bosk, Paulo Mendes, Jörg Ott</p>
+        <p class="venue">ANRW '26 - Applied Networking Research Workshop 2026</p>
+      </article>
+    </section>
+
+    <section id="talks" class="boxed">
+      <h2>Talks</h2>
+      <article>
+        <h3>NixNet: Upcoming Features</h3>
+        <a href="https://www.ce.cit.tum.de/cm/events/doctoral-seminar/ds-2026-10/" aria-label="Event page"></a>
+        <p class="author">Benedikt Spies</p>
+        <p class="venue">Connected Mobility Doctoral Seminar 2026</p>
+        <p class="venue">Schliersee, Germany</p>
+      </article>
+      <article>
+        <a class="thumbnail" href="https://www.youtube.com/watch?v=gAxlaIl_TG0"><img src="res/talk_nixcon26_1x.webp" srcset="res/talk_nixcon26_2x.webp 2x, res/talk_nixcon26_3x.webp 3x" alt="NixCon 2026 talk video" width="208" height="117"></a>
+        <h3>NixNet: Declare Your Network Experiments as a Nix Flake</h3>
+        <a href="https://www.youtube.com/watch?v=gAxlaIl_TG0" aria-label="Video"></a>
+        <p class="author">Benedikt Spies</p>
+        <p class="venue">NixCon 2026</p>
+        <p class="venue">Kraków, Poland</p>
+      </article>
+      <article>
+        <a class="thumbnail" href="https://www.youtube.com/watch?v=_iodYKC_B6M&amp;t=963s"><img src="res/talk_anrw26_1x.webp" srcset="res/talk_anrw26_2x.webp 2x, res/talk_anrw26_3x.webp 3x" alt="ANRW 2026 talk video" width="208" height="117"></a>
+        <h3>NixNet: Reproducible Virtual Network Experiments</h3>
+        <a href="https://www.youtube.com/watch?v=_iodYKC_B6M&amp;t=963s" aria-label="Video"></a>
+        <p class="author">Benedikt Spies</p>
+        <p class="venue">ANRW '26 - Applied Networking Research Workshop 2026</p>
+        <p class="venue">Vienna, Austria</p>
+      </article>
+      <article>
+        <h3>NixNet: How to Build Virtual Network Testbeds</h3>
+        <a href="https://www.ce.cit.tum.de/cm/events/doctoral-seminar/ds-2025-10-1/" aria-label="Event page"></a>
+        <p class="author">Benedikt Spies</p>
+        <p class="venue">Connected Mobility Doctoral Seminar 2026</p>
+        <p class="venue">Delft, Netherlands</p>
+      </article>
+    </section>
+
+    <section id="courses" class="boxed">
+      <h2>Courses</h2>
+      <article>
+        <h3>Protocol Design</h3>
+        <a href="https://www.ce.cit.tum.de/cm/teaching/protocol-design/" aria-label="Course page"></a>
+        <p class="author">Jörg Ott</p>
+        <p class="venue">TUM Chair of Connected Mobility 2026</p>
+      </article>
+    </section>
+
+    <section id="users">
+      <h2>Used By</h2>
+      <div class="user-logos">
+        <img src="res/tum.svg" alt="Technical University of Munich" width="408" height="212">
+        <img src="res/airbus.svg" alt="Airbus" width="399" height="74">
+      </div>
+      <blockquote class="citation">
+        <p>NixNet made our experiments fully reproducible across machines. What used to take days of setup now runs in minutes.</p>
+        <footer>
+          <img class="avatar" src="res/avatar_gustavo_b_1x.webp" srcset="res/avatar_gustavo_b_2x.webp 2x, res/avatar_gustavo_b_3x.webp 3x" alt="Gustavo B" width="48" height="48">
+          <cite>Gustavo B, Researcher - Airbus</cite>
+        </footer>
+      </blockquote>
+      <blockquote class="citation">
+        <p>Sharing testbeds with students and colleagues has never been easier.</p>
+        <footer>
+          <img class="avatar" src="res/avatar_hendrik_c_1x.webp" srcset="res/avatar_hendrik_c_2x.webp 2x, res/avatar_hendrik_c_3x.webp 3x" alt="Hendrik C" width="48" height="48">
+          <cite>Hendrik C, PhD Student - TUM</cite>
+        </footer>
+      </blockquote>
+      <blockquote class="citation">
+        <p>In the Protocol Design course, we specified and implemented our own network protocol from scratch. NixNet helped us understand its behavior in various network conditions.</p>
+        <footer>
+          <img class="avatar" src="res/avatar_patrick_b_1x.webp" srcset="res/avatar_patrick_b_2x.webp 2x, res/avatar_patrick_b_3x.webp 3x" alt="Patrick B" width="48" height="48">
+          <cite>Patrick B, Student - TUM</cite>
+        </footer>
+      </blockquote>
+    </section>
+
+    <section id="documentation">
+      <h2>Documentation</h2>
+      <p>The full option reference is available in the NixNet Wiki, covering all module options with types, defaults, and descriptions.</p>
+      <a class="btn" href="https://github.com/birneee/nixnet/wiki/nixnet-options-docs-latest" target="_blank" rel="noopener"><i class="nf">&#xf02d;</i> Look up Options</a>
+    </section>
+
+    <section id="faq">
+      <h2>FAQ</h2>
+      <p>Is NixNet deterministic? Does it only run on NixOS? How does it compare to alternatives?<br>Find answers to these and other common questions in the FAQ.</p>
+      <a class="btn" href="https://github.com/birneee/nixnet/blob/main/FAQ.md" target="_blank" rel="noopener"><i class="nf">&#xf059;</i> Read the FAQ</a>
+    </section>
+
+    <section id="github">
+      <h2>NixNet is Open Source</h2>
+      <p>Check out the code, contribute, and find many more examples on GitHub.</p>
+      <a class="btn" href="https://github.com/birneee/nixnet" target="_blank" rel="noopener"><i class="nf">&#xf09b;</i> Explore GitHub</a>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2026 NixNet Project. Released under the MIT and Apache 2.0 licenses.</p>
+  </footer>
+</body>
+</html>

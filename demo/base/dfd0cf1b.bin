@@ -1,0 +1,92 @@
+{
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    nixnet.url = "github:birneee/nixnet";
+    nixnet.inputs.nixpkgs.follows = "nixpkgs";
+    nixnet.inputs.flake-parts.follows = "flake-parts";
+  };
+
+  outputs =
+    inputs@{
+      flake-parts,
+      nixpkgs,
+      nixnet,
+      ...
+    }:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [
+        "x86_64-linux"
+        "i686-linux"
+      ];
+      perSystem =
+        { system, pkgs, ... }:
+        let
+          patchedNixpkgs = nixpkgs // {
+            legacyPackages = builtins.mapAttrs (
+              sys: _:
+              import nixpkgs.outPath {
+                system = sys;
+                overlays = [
+                  (final: prev: {
+                    shellcheck-minimal = prev.writeShellScriptBin "shellcheck" "exit 0" // {
+                      compiler.bootstrapAvailable = false;
+                    };
+                  })
+                ];
+              }
+            ) nixpkgs.legacyPackages;
+          };
+          nixnetOutputs = (import "${nixnet}/flake.nix").outputs {
+            inherit flake-parts;
+            nixpkgs = patchedNixpkgs;
+            self = {
+              outPath = nixnet.outPath;
+              inputs = {
+                nixpkgs = patchedNixpkgs;
+                inherit flake-parts;
+              };
+            };
+          };
+          nixnetPkgs = nixnetOutputs.legacyPackages.${system};
+          config = {
+            arp = false;
+            arpPrefill = true;
+            nodes = {
+              client = {
+                networking.interfaces.veth0.ipv4.addresses = [
+                  {
+                    address = "10.0.0.1";
+                    prefixLength = 24;
+                  }
+                ];
+                packages = with pkgs; [ iputils ];
+                scripts.main = {
+                  exec = "ping -c 20 10.0.0.2 2>&1 | tee ./stdout";
+                  await = true;
+                };
+                postSetup = "tc qdisc add dev veth0 root netem delay 50ms 15ms loss 10%";
+              };
+              server = {
+                networking.interfaces.veth0.ipv4.addresses = [
+                  {
+                    address = "10.0.0.2";
+                    prefixLength = 24;
+                  }
+                ];
+                postSetup = "tc qdisc add dev veth0 root netem delay 50ms 15ms loss 10%";
+              };
+            };
+            veths.veth0 = {
+              a.node = "client";
+              b.node = "server";
+            };
+          };
+        in
+        {
+          packages.default = nixnetPkgs.mkExperiment config;
+          packages.mermaid = nixnetPkgs.mkMermaid config;
+          packages.mermaid-svg = nixnetPkgs.mkMermaidSvg config;
+        };
+    };
+}

@@ -1,0 +1,50 @@
+#!/nix/store/7shi4xysa79rvhmchqq019770bjk6wg9-busybox-static-i686-unknown-linux-musl-1.37.0/bin/sh
+export PATH=/nix/store/7shi4xysa79rvhmchqq019770bjk6wg9-busybox-static-i686-unknown-linux-musl-1.37.0/bin
+
+mount -t proc     proc     /proc 2>/dev/null || true
+mount -t devtmpfs devtmpfs /dev  2>/dev/null || true
+mkdir -p /dev/pts
+mount -t devpts   devpts   /dev/pts 2>/dev/null || true
+mount -t sysfs    sys      /sys  2>/dev/null || true
+mount -t tmpfs    tmpfs    /run  -o mode=755,size=25% 2>/dev/null || true
+mkdir -p /run/lock /tmp
+chmod 1777 /tmp /run/lock
+ln -sfn /run /var/run
+
+ln -sfn "$(dirname "$(readlink /init)")" /run/current-system
+
+echo nixos > /proc/sys/kernel/hostname
+
+# Network intentionally left down: the whole closure is baked into the
+# image, so nothing needs the internet. With no default route, nix's
+# haveInternet() returns false and it resolves everything offline instead
+# of doing a blocking connect() to a (headless) dead relay. This makes the
+# browser boot behave exactly like the headless snapshot build, so any
+# `nix run` behavior is reproducible with devtools open.
+# ip link set eth0 up 2>/dev/null || true
+# ip addr add 10.5.100.1/16 dev eth0 2>/dev/null || true
+# ip route add default via 10.5.0.1 dev eth0 2>/dev/null || true
+: > /etc/resolv.conf
+
+# /root/flake.nix + flake.lock are baked into the image at build time
+# (see flake.nix's rootfs derivation), along with a pre-warmed Nix
+# eval cache at /root/.cache/nix/eval-cache-v5, so bare `nix run` here
+# hits the cache instead of re-evaluating nixpkgs from scratch.
+
+# SHELL points at busybox (not /bin/sh, which is bash): the browser page
+# runs `exec "$SHELL" --login` on going live to respawn a clean shell, and
+# relies on busybox's '~ # ' prompt to know when it's back.
+export HOME=/root USER=root LOGNAME=root TERM=linux
+export SHELL=/nix/store/7shi4xysa79rvhmchqq019770bjk6wg9-busybox-static-i686-unknown-linux-musl-1.37.0/bin/sh
+# Set terminal dimensions so vi/ncurses get the right size via
+# TIOCGWINSZ. Matches the 644x442 content area of the 668x466 terminal
+# div (12px border, box-sizing:border-box) at Courier New 14px.
+stty -F /dev/ttyS0 rows 26 cols 76 2>/dev/null || true
+export LINES=26 COLUMNS=76
+cd /root
+while true; do
+  printf 'This VM is powered by v86, Linux 6.18.35\r\n' > /dev/ttyS0
+  /nix/store/7shi4xysa79rvhmchqq019770bjk6wg9-busybox-static-i686-unknown-linux-musl-1.37.0/bin/setsid -c \
+    /nix/store/7shi4xysa79rvhmchqq019770bjk6wg9-busybox-static-i686-unknown-linux-musl-1.37.0/bin/sh --login \
+    </dev/ttyS0 >/dev/ttyS0 2>/dev/ttyS0
+done

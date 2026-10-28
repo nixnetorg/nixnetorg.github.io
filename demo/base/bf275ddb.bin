@@ -1,0 +1,12 @@
+# config file for bash-completion
+# https://github.com/scop/bash-completion
+
+set (BASH_COMPLETION_VERSION "2.17.0")
+
+set (BASH_COMPLETION_PREFIX "/nix/store/gi1brf1ialwjgaiv9i83hkglm6vgv6ng-bash-completion-2.17.0")
+
+set (BASH_COMPLETION_COMPATDIR "/nix/store/gi1brf1ialwjgaiv9i83hkglm6vgv6ng-bash-completion-2.17.0/etc/bash_completion.d")
+set (BASH_COMPLETION_COMPLETIONSDIR "/nix/store/gi1brf1ialwjgaiv9i83hkglm6vgv6ng-bash-completion-2.17.0/share/bash-completion/completions")
+set (BASH_COMPLETION_HELPERSDIR "/nix/store/gi1brf1ialwjgaiv9i83hkglm6vgv6ng-bash-completion-2.17.0/share/bash-completion/helpers")
+
+set (BASH_COMPLETION_FOUND "TRUE")

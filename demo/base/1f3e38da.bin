@@ -1,0 +1,15 @@
+passwd:    files systemd
+group:     files [success=merge] systemd
+shadow:    files systemd
+sudoers:   files
+
+hosts:     mymachines files myhostname dns
+networks:  files
+
+ethers:    files
+services:  files
+protocols: files
+rpc:       files
+
+subuid:    files
+subgid:    files

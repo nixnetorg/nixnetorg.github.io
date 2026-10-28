@@ -1,0 +1,2 @@
+export NIX_ETC_PROTOCOLS=/nix/store/cp3fjzscspvfd0p5k4lwxfxrzry2mh2y-iana-etc-20251215/etc/protocols
+export NIX_ETC_SERVICES=/nix/store/cp3fjzscspvfd0p5k4lwxfxrzry2mh2y-iana-etc-20251215/etc/services

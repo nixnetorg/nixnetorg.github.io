@@ -1,0 +1,15 @@
+[Unit]
+Description=Availability of block devices
+Before=shutdown.target
+After=iscsi-shutdown.service iscsi.service iscsid.service fcoe.service rbdmap.service
+DefaultDependencies=no
+Conflicts=shutdown.target
+
+[Service]
+Type=oneshot
+ExecStart=/nix/store/l2z0c4ivxc914j8h8g537zdcyfrbga2h-coreutils-9.11/bin/true
+ExecStop=/nix/store/70h7jll3szgf89hg9wjibhcc9z9kma7k-lvm2-2.03.39-bin/bin/blkdeactivate -u -l wholevg -m disablequeueing -r wait
+RemainAfterExit=yes
+
+[Install]
+WantedBy=sysinit.target

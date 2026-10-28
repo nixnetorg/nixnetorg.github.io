@@ -1,0 +1,36 @@
+#!/nix/store/ksdxvc92sa7h6yppixfl4xyj6632vf0x-bash-5.3p9/bin/bash
+set -euo pipefail
+
+_PATH="" # clear path
+_PATH="/nix/store/6c0fjwgaxpnnlk5yna14kpan6f0442g3-busybox-mini/bin:$_PATH"
+_PATH="/nix/store/ksdxvc92sa7h6yppixfl4xyj6632vf0x-bash-5.3p9/bin:$_PATH"
+_PATH="/nix/store/l2z0c4ivxc914j8h8g537zdcyfrbga2h-coreutils-9.11/bin:$_PATH"
+_PATH="/nix/store/c9dvy4xm2a4r8fc7pik3871xbh6z2401-iproute2-7.0.0/bin:$_PATH"
+_PATH="/nix/store/gnhnf55iv89m2g9cq5xbgxriwgqarbn0-util-linux-minimal-2.42-bin/bin:$_PATH"
+_PATH="/nix/store/qbaxbcyd6fk46qj1qskn5s556mbpfdp6-jail/bin:$_PATH"
+export PATH="$_PATH"
+
+IFS='-' read -r _START _END <<< "${1:-}"
+if [ -n "$_END" ]; then
+  for _RUN_NUM in $(seq "$_START" "$_END"); do
+    "$0" "$_RUN_NUM" || true
+  done
+  exit 0
+fi
+_RUN_NUM=${_START:-0}
+_WORK_DIR_TPL='out/{run}'
+_WORK_DIR="${_WORK_DIR_TPL//\{run\}/$(printf "%02d" "$_RUN_NUM")}"
+while [ -z "${1:-}" ] && [ -e "$_WORK_DIR" ]; do
+  _RUN_NUM=$((_RUN_NUM+1))
+  _WORK_DIR="${_WORK_DIR_TPL//\{run\}/$(printf "%02d" "$_RUN_NUM")}"
+done
+
+mkdir -p "$_WORK_DIR"
+echo "testbed| workdir: $(realpath "$_WORK_DIR")"
+
+_SELF="$(readlink -f "$0")"
+exec jail exec \
+  --setenv "PATH=$PATH" \
+  --bind "$_WORK_DIR" /pwd \
+  --chdir /pwd \
+  "$(dirname "$_SELF")/.testbed-wrapped"

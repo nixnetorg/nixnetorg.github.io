@@ -1,0 +1,10 @@
+prefix=/nix/store/z7c79mx1rrb4gzc0mhd06mfppv0yn84c-lksctp-tools-1.0.21
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: sctp
+Description: User-level SCTP API library
+Version: 1.0.21
+Libs: -L${libdir} -lsctp
+Cflags: -I${includedir}
